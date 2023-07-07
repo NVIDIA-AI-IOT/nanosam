@@ -32,8 +32,7 @@ python scripts/export_mask_decoder_onnx.py --checkpoint ./weights/mobile_sam.pt 
 ```bash
 /usr/src/tensorrt/bin/trtexec \
     --onnx=data/mobile_sam_image_encoder.onnx \
-    --saveEngine=data/mobile_sam_image_encoder.engine \
-    --fp16
+    --saveEngine=data/mobile_sam_image_encoder.engine 
 ```
 
 ### Build mask decoder TensorRT engine
@@ -41,6 +40,5 @@ python scripts/export_mask_decoder_onnx.py --checkpoint ./weights/mobile_sam.pt 
 ```bash
 /usr/src/tensorrt/bin/trtexec \
     --onnx=data/mobile_sam_mask_decoder.onnx \
-    --saveEngine=data/mobile_sam_mask_decoder.engine \
-    --fp16
+    --saveEngine=data/mobile_sam_mask_decoder.engine
 ```
