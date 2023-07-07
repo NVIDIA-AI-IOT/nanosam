@@ -5,3 +5,4 @@ __py
 **/__pycache__/
 data
 **.egg-info
+*.onnx
