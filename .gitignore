@@ -3,3 +3,5 @@
 *.pyd
 __py
 **/__pycache__/
+data
+**.egg-info
