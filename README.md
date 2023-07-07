@@ -1,5 +1,20 @@
 # MobileSam TRT
 
+### Run TensorRT docker
+
+```bash
+docker run \
+    -it \
+    -d \
+    --rm \
+    --ipc host \
+    --gpus all \
+    --shm-size 14G \
+    --device /dev/video0 \
+    -v $(pwd):/workspace \
+    nvcr.io/nvidia/pytorch:23.01-py3
+```
+
 ### Export Image Encoder ONNX
 
 ```

@@ -46,5 +46,6 @@ with torch.no_grad():
         (data,),
         args.output,
         input_names=["image"],
+        output_names=["image_embeddings"],
         opset_version=args.opset
     )
