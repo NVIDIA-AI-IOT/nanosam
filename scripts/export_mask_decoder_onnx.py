@@ -132,13 +132,13 @@ def run_export(
         "point_coords": torch.randint(low=0, high=1024, size=(1, 5, 2), dtype=torch.float),
         "point_labels": torch.randint(low=0, high=4, size=(1, 5), dtype=torch.float),
         "mask_input": torch.randn(1, 1, *mask_input_size, dtype=torch.float),
-        "has_mask_input": torch.tensor([1], dtype=torch.float),
-        "orig_im_size": torch.tensor([1500, 2250], dtype=torch.int32),
+        "has_mask_input": torch.tensor([1], dtype=torch.float)
+        # "orig_im_size": torch.tensor([1500, 2250], dtype=torch.int32),
     }
 
     _ = onnx_model(**dummy_inputs)
 
-    output_names = ["masks", "iou_predictions", "low_res_masks"]
+    output_names = ["iou_predictions", "low_res_masks"]
 
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=torch.jit.TracerWarning)

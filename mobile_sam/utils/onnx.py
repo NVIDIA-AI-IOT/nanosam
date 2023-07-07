@@ -111,8 +111,7 @@ class SamOnnxModel(nn.Module):
         point_coords: torch.Tensor,
         point_labels: torch.Tensor,
         mask_input: torch.Tensor,
-        has_mask_input: torch.Tensor,
-        orig_im_size: torch.Tensor,
+        has_mask_input: torch.Tensor
     ):
         sparse_embedding = self._embed_points(point_coords, point_labels)
         dense_embedding = self._embed_masks(mask_input, has_mask_input)
@@ -132,13 +131,13 @@ class SamOnnxModel(nn.Module):
         if self.return_single_mask:
             masks, scores = self.select_masks(masks, scores, point_coords.shape[1])
 
-        upscaled_masks = self.mask_postprocessing(masks, orig_im_size)
+        # upscaled_masks = self.mask_postprocessing(masks, orig_im_size)
 
-        if self.return_extra_metrics:
-            stability_scores = calculate_stability_score(
-                upscaled_masks, self.model.mask_threshold, self.stability_score_offset
-            )
-            areas = (upscaled_masks > self.model.mask_threshold).sum(-1).sum(-1)
-            return upscaled_masks, scores, stability_scores, areas, masks
+        # if self.return_extra_metrics:
+        #     stability_scores = calculate_stability_score(
+        #         upscaled_masks, self.model.mask_threshold, self.stability_score_offset
+        #     )
+        #     areas = (upscaled_masks > self.model.mask_threshold).sum(-1).sum(-1)
+        #     return upscaled_masks, scores, stability_scores, areas, masks
 
-        return upscaled_masks, scores, masks
+        return scores, masks
