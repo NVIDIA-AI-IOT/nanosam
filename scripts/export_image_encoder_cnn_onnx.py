@@ -1,6 +1,6 @@
 import torch
 
-from mobile_sam import sam_model_registry
+from mobile_sam.modeling.image_encoder_cnn import ImageEncoderCNN
 
 import argparse
 
@@ -17,13 +17,6 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--model-type",
-    type=str,
-    required=True,
-    help="In ['default', 'vit_h', 'vit_l', 'vit_b']. Which type of SAM model to export.",
-)
-
-parser.add_argument(
     "--opset",
     type=int,
     default=16,
@@ -35,14 +28,15 @@ args = parser.parse_args()
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 with torch.no_grad():
-    mobile_sam = sam_model_registry[args.model_type](checkpoint=args.checkpoint)
-    mobile_sam.to(device=device)
-    mobile_sam.eval()
 
-    data = torch.randn(16, 3, 1024, 1024).to(device)
+    model = ImageEncoderCNN()
+    model.load_state_dict(torch.load(args.checkpoint)["model"])
+    model = model.cuda().eval()
+
+    data = torch.randn(1, 3, 512, 512).to(device)
 
     torch.onnx.export(
-        mobile_sam.image_encoder,
+        model,
         (data,),
         args.output,
         input_names=["image"],
