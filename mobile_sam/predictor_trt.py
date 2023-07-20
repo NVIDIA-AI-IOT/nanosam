@@ -112,7 +112,7 @@ def upscale_mask(mask, image_shape, size=256):
         lim_x = size
         lim_y = int(size * image_shape[0] / image_shape[1])
     else:
-        lim_x = int(size * image_shape[0] / image_shape[1])
+        lim_x = int(size * image_shape[1] / image_shape[0])
         lim_y = size
 
     mask[:, :, :lim_y, :lim_x]
