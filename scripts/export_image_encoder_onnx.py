@@ -22,6 +22,11 @@ parser.add_argument(
     required=True,
     help="In ['default', 'vit_h', 'vit_l', 'vit_b']. Which type of SAM model to export.",
 )
+parser.add_argument(
+    "--batch_size",
+    type=int,
+    default=1
+)
 
 parser.add_argument(
     "--opset",
@@ -39,7 +44,7 @@ with torch.no_grad():
     mobile_sam.to(device=device)
     mobile_sam.eval()
 
-    data = torch.randn(16, 3, 1024, 1024).to(device)
+    data = torch.randn(args.batch_size, 3, 1024, 1024).to(device)
 
     torch.onnx.export(
         mobile_sam.image_encoder,
