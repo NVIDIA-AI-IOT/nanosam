@@ -1,6 +1,10 @@
 import torch
 
-from mobile_sam.modeling.image_encoder_cnn import ImageEncoderCNN
+from mobile_sam.modeling.image_encoder_cnn import (
+    ImageEncoderCNN_256,
+    ImageEncoderCNN_512,
+    ImageEncoderCNN_1024
+)
 
 import argparse
 
@@ -17,6 +21,10 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--size", type=int, default=512
+)
+
+parser.add_argument(
     "--opset",
     type=int,
     default=16,
@@ -29,11 +37,19 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 with torch.no_grad():
 
-    model = ImageEncoderCNN()
+    if args.size == 256:
+        model = ImageEncoderCNN_256()
+    elif args.size == 512:
+        model = ImageEncoderCNN_512()
+    elif args.size == 1024:
+        model = ImageEncoderCNN_1024()
+    else:
+        raise RuntimeError(f"Unsupported image size: {args.size}")
+
+    data = torch.randn(1, 3, args.size, args.size).to(device)
     model.load_state_dict(torch.load(args.checkpoint)["model"])
     model = model.cuda().eval()
 
-    data = torch.randn(1, 3, 512, 512).to(device)
 
     torch.onnx.export(
         model,
