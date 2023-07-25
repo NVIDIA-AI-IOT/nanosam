@@ -27,10 +27,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument("images", type=str)
 parser.add_argument("output_dir", type=str)
 parser.add_argument("--student_size", type=int, default=512)
+parser.add_argument("--model_name", type=str, default="resnet18")
 parser.add_argument("--num_images", type=int, default=None)
+parser.add_argument("--num_epochs", type=int, default=200)
 parser.add_argument("--batch_size", type=int, default=16)
 parser.add_argument("--num_workers", type=int, default=8)
 parser.add_argument("--learning_rate", type=float, default=3e-4)
+parser.add_argument("--loss", type=str, default="huber")
 parser.add_argument("--teacher_image_encoder_engine", type=str, default="data/mobile_sam_image_encoder_bs16.engine")
 args = parser.parse_args()
 
@@ -40,12 +43,20 @@ if not os.path.exists(args.output_dir):
 image_encoder_trt = load_image_encoder_engine(args.teacher_image_encoder_engine)
 
 if args.student_size == 512:
-    image_encoder_cnn = ImageEncoderCNN_512(pretrained=True).cuda()
+    image_encoder_cnn = ImageEncoderCNN_512(model_name=args.model_name, pretrained=True).cuda()
 elif args.student_size == 1024:
-    image_encoder_cnn = ImageEncoderCNN_1024(pretrained=True).cuda()
+    image_encoder_cnn = ImageEncoderCNN_1024(model_name=args.model_name, pretrained=True).cuda()
 elif args.student_size == 256:
-    image_encoder_cnn = ImageEncoderCNN_256(pretrained=True).cuda()
+    image_encoder_cnn = ImageEncoderCNN_256(model_name=args.model_name, pretrained=True).cuda()
 
+if args.loss == "huber":
+    loss_function = F.huber_loss
+elif args.loss == "l1":
+    loss_function = F.l1_loss
+elif args.loss == "mse":
+    loss_function = F.mse_loss
+else:
+    raise RuntimeError(f"Unsupported loss function {args.loss}")
 
 optimizer = torch.optim.Adam(image_encoder_cnn.parameters(), lr=3e-4)
 
@@ -66,7 +77,7 @@ if os.path.exists(checkpoint_path):
 else:
     start_epoch = 0
 
-for epoch in range(start_epoch, 200):
+for epoch in range(start_epoch, args.num_epochs):
     epoch_loss = 0.
     for image in tqdm.tqdm(iter(loader)):
         image = image.cuda()
@@ -79,7 +90,7 @@ for epoch in range(start_epoch, 200):
         optimizer.zero_grad()
         output = image_encoder_cnn(image_cnn)
 
-        loss = F.l1_loss(output, features)
+        loss = loss_function(output, features)
 
         loss.backward()
         optimizer.step()
