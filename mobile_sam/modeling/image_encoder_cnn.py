@@ -84,14 +84,10 @@ class ImageEncoderCNN_512(nn.Module):
             features_only=True
         )
 
-        self.up_1 = nn.Sequential(
-            nn.ConvTranspose2d(512, 256, 3, 2, 1, 1),
-            nn.BatchNorm2d(256),
-            nn.ReLU()
-        )
+        channels = self.backbone.feature_info.channels()
 
-        self.up_2 = nn.Sequential(
-            nn.Conv2d(256 + 256, 256, 3, padding=1),
+        self.up_1 = nn.Sequential(
+            nn.Conv2d(channels[-1], 256, 3, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(),
             nn.ConvTranspose2d(256, 256, 3, 2, 1, 1),
@@ -99,11 +95,20 @@ class ImageEncoderCNN_512(nn.Module):
             nn.ReLU()
         )
 
-        self.proj = nn.Conv2d(
-            256 + 128, 
-            feature_dim, 
-            3,
-            padding=1
+        self.up_2 = nn.Sequential(
+            nn.Conv2d(256 + channels[-2], 256, 3, padding=1),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.ConvTranspose2d(256, 256, 3, 2, 1, 1),
+            nn.BatchNorm2d(256),
+            nn.ReLU()
+        )
+
+        self.proj = nn.Sequential(
+            nn.Conv2d(256 + channels[-3], 256, 3, padding=1),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.Conv2d(256, feature_dim, 1, padding=0)
         )
 
         if pos_embedding:
@@ -140,20 +145,24 @@ class ImageEncoderCNN_1024(nn.Module):
             features_only=True
         )
 
+        channels = self.backbone.feature_info.channels()
+
         self.up_1 = nn.Sequential(
-            nn.Conv2d(512, 512, 3, padding=1),
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.ConvTranspose2d(512, 256, 3, 2, 1, 1),
-            nn.BatchNorm2d(256),
-            nn.ReLU()
+            nn.Conv2d(channels[-1], 256, 3, padding=1),
+            nn.GELU(),
+            nn.Conv2d(256, 256, 3, padding=1),
+            nn.GELU(),
+            nn.Conv2d(256, 256, 3, padding=1),
+            nn.GELU(),
+            nn.ConvTranspose2d(256, 256, 3, 2, 1, 1),
+            nn.GELU()
         )
 
-        self.proj = nn.Conv2d(
-            256 + 256, 
-            feature_dim, 
-            3,
-            padding=1
+        self.proj = nn.Sequential(
+            nn.Conv2d(256, 256, 3, padding=1),
+            # nn.BatchNorm2d(256),
+            nn.GELU(),
+            nn.Conv2d(256, feature_dim, 1, padding=0)
         )
 
         if pos_embedding:
@@ -167,8 +176,8 @@ class ImageEncoderCNN_1024(nn.Module):
         
     def forward(self, x):
         x = self.backbone(x)
-        z = torch.cat([x[-2], self.up_1(x[-1])], dim=1)
-        x = self.proj(z)
+        # z = torch.cat([x[-2], self.up_1(x[-1])], dim=1)
+        x = self.proj(self.up_1(x[-1]))
         if self.pos_embedding is not None:
             x = x + self.pos_embedding
         return x
