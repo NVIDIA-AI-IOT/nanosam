@@ -6,3 +6,4 @@ __py
 data
 **.egg-info
 *.onnx
+.hypothesis
