@@ -47,35 +47,6 @@ def predict_box(predictor, image, box, set_image=True):
     
     return mask
 
-def predict_box_roi(predictor, image: PIL.Image.Image, box, scale):
-    w = box[2] - box[0]
-    h = box[3] - box[1]
-    s = scale * max(w, h)
-    cx = box[0] + w / 2
-    cy = box[1] + h / 2
-    roi = [
-        int(cx - s / 2),
-        int(cy - s / 2),
-        int(cx + s / 2),
-        int(cy + s / 2)
-    ]
-    dw = (s - w) / 2
-    dh = (s - h) / 2
-    box_in_roi = [
-        dw,
-        dh,
-        s - dw,
-        s - dh
-    ]
-    
-    image_crop = image.crop(roi)
-    mask = predict_box(predictor, image_crop, box_in_roi)
-    mask = PIL.Image.fromarray(mask.astype(np.uint8))
-    mask_image = np.zeros((image.height, image.width), dtype=np.uint8)
-    mask_image = PIL.Image.fromarray(mask_image)
-    mask_image.paste(mask, roi)
-
-    return np.asarray(mask_image) > 0
     
 def box_xywh_to_xyxy(box):
     return [box[0], box[1], box[0] + box[2], box[1] + box[3]]
@@ -122,42 +93,3 @@ for i in tqdm.tqdm(range(len(dataset))):
 
 with open("eval_coco_results.json", 'w') as f:
     json.dump(results, f)
-
-# print(ann)
-# results = []
-
-# for i in 
-# mask = dataset.coco.annToMask(ann)
-
-# mask_coco = (mask > 0)
-# box = box_xywh_to_xyxy(ann['bbox'])
-# mask_nanosam = predict_box(nano_sam_predictor, image, box)
-# mask_mobilesam = predict_box(mobile_sam_predictor, image, box)
-# # mask_mobilesam_roi = predict_box_roi(mobile_sam_predictor, image, box, scale=1.5)
-# # mask_nanosam_roi = predict_box_roi(nano_sam_predictor, image, box, scale=1.5)
-
-# print(f"IOU(mobilesam, coco): {iou(mask_mobilesam, mask_coco)}")
-# print(f"IOU(nanosam, coco): {iou(mask_nanosam, mask_coco)}")
-# print(f"IOU(mobilesam, nanosam): {iou(mask_mobilesam, mask_nanosam)}")
-# # print(f"IOU(mobilesam_roi, coco): {iou(mask_mobilesam_roi, mask_coco)}")
-# # print(f"IOU(nanosam_roi, coco): {iou(mask_nanosam_roi, mask_coco)}")
-# # print(f"IOU(mobilesam_roi, nanosam_roi): {iou(mask_mobilesam_roi, mask_nanosam_roi)}")
-
-# plt.subplot(131)
-# plt.imshow(image)
-# plt.imshow(mask_coco, alpha=0.5)
-# # draw_box(box)
-# plt.subplot(132)
-# plt.imshow(image)
-# plt.imshow(mask_mobilesam, alpha=0.5)
-# plt.subplot(133)
-# plt.imshow(image)
-# plt.imshow(mask_nanosam, alpha=0.5)
-# # plt.subplot(234)
-# # plt.imshow(image)
-# # plt.imshow(mask_mobilesam_roi, alpha=0.5)
-# # plt.subplot(234)
-# # plt.imshow(image)
-# # plt.imshow(mask_nanosam_roi, alpha=0.5)
-
-# plt.savefig("mask.png")
