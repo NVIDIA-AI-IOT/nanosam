@@ -8,6 +8,5 @@ docker run \
     --ipc host \
     --gpus all \
     --shm-size 14G \
-    --device /dev/video0 \
-    -v $(pwd):/clip_distillation \
-    clip_distillation:23-01
+    -v $(pwd):/nanosam \
+    nanosam:23-01
