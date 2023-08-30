@@ -3,6 +3,7 @@ import PIL.Image
 import os
 from torchvision.transforms import Compose, ToTensor, Normalize, RandomResizedCrop
 
+
 def default_transform():
     transform = Compose([
         RandomResizedCrop((1024, 1024)),
@@ -14,7 +15,8 @@ def default_transform():
     ])
     return transform
 
-class ImageDataset:
+
+class ImageFolder:
     def __init__(self, root: str, transform = None):
         self.root = root
         image_paths = glob.glob(os.path.join(root, "*.jpg"))
