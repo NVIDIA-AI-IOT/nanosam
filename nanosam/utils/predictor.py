@@ -121,12 +121,12 @@ def upscale_mask(mask, image_shape, size=256):
     return mask
 
 
-class PredictorTRT(object):
+class Predictor(object):
 
     def __init__(self,
             image_encoder_engine: str,
             mask_decoder_engine: str,
-            image_encoder_size: int = 512,
+            image_encoder_size: int = 1024,
             orig_image_encoder_size: int = 1024,
         ):
         self.image_encoder_engine = load_image_encoder_engine(image_encoder_engine)
