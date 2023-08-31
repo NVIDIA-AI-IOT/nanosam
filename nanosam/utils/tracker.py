@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from nanosam.predictor import Predictor, upscale_mask
+from .predictor import Predictor, upscale_mask
 import numpy as np
 import PIL.Image
 
@@ -37,9 +37,11 @@ def mask_to_centroid(mask):
 def mask_to_sample_points(mask):
     mask = mask[0, 0] > 0
     mask = mask.detach().cpu().numpy()
-    mask_pts = np.argwhere(mask)
-    mask_pts_selected = np.random.choice(len(mask_pts), 10)
-    return mask_pts[mask_pts_selected]
+    fg_mask_pts = np.argwhere(mask)
+    fg_mask_pts_selected = np.random.choice(len(fg_mask_pts), 1)
+    bg_mask_pts = np.argwhere(mask == False)
+    bg_mask_pts_selected = np.random.choice(len(bg_mask_pts), 1)
+    return fg_mask_pts[fg_mask_pts_selected], bg_mask_pts[bg_mask_pts_selected]
 
 class Tracker(object):
 
@@ -49,6 +51,8 @@ class Tracker(object):
         self.predictor = predictor
         self.target_mask = None
         self.token = None
+        self._targets = []
+        self._features = []
 
     def set_image(self, image):
         self.predictor.set_image(image)
@@ -85,52 +89,35 @@ class Tracker(object):
         return up_to_256(torch.sum(features * token, dim=(1), keepdim=True))
     
     @torch.no_grad()
-    def init_point(self, image, point):
+    def init(self, image, point):
         self.set_image(image)
-        mask_high, mask_raw, mask_low = self.predict_mask_point(point)
-        box = mask_to_box(mask_high)
+        mask_high, mask_raw, mask_low = self.predict_mask(np.array([point]), np.array([1]))
         self.token = self.fit_token(self.predictor.features, mask_low)
-        mask_token = self.apply_token(self.predictor.features, self.token)
-        mask_high, mask_raw, mask_low = self.predict_mask(box, mask_input=mask_token)
-        self.mask = mask_high
-        return mask_high, mask_to_centroid(mask_high)
+        self.init_token = self.token
 
-    @torch.no_grad()
-    def init(self, image, box):
-        self.set_image(image)
-        mask_high, mask_raw, mask_low = self.predict_mask(box)
-        self.token = self.fit_token(self.predictor.features, mask_low)
-        mask_token = self.apply_token(self.predictor.features, self.token)
-        mask_high, mask_raw, mask_low = self.predict_mask(box, mask_input=mask_token)
-        self.mask = mask_high
-        return mask_high, mask_to_box(mask_high)
+        return mask_high
+        
+    def reset(self):
+        self._features = []
+        self._targets = []
+        self.token = None
 
     @torch.no_grad()
     def update(self, image):
         self.set_image(image)
         mask_token = self.apply_token(self.predictor.features, self.token)
         mask_token_up = upscale_mask(mask_token, (image.height, image.width))
-        if torch.count_nonzero(mask_token_up > 0) > 1:
-            box = mask_to_box(mask_token_up)
-            mask_high, mask_raw, mask_low = self.predict_mask(box, mask_input=mask_token)
-            self.token = self.fit_token(self.predictor.features, mask_low)
-            result = mask_high, mask_to_box(mask_high)
-            return result
+        if torch.count_nonzero(mask_token_up > 0.0) > 1:
+            # fg_points, bg_points = mask_to_sample_points(mask_token_up)
+            # points = np.concatenate([fg_points, bg_points], axis=0)
+            # point_labels = np.concatenate([np.ones((len(fg_points),), dtype=np.int64), np.zeros((len(bg_points),), dtype=np.int64)], axis=0)
+            # box = mask_to_box(mask_token_up)
+            points = np.array([mask_to_centroid(mask_token_up)])
+            point_labels = np.array([1])
+            mask_high, mask_raw, mask_low = self.predict_mask(points, point_labels, mask_input=mask_token)
+            self.token = 0.995 * self.token + 0.005 * self.fit_token(self.predictor.features, mask_low)
+            self._result = mask_high, points[0]
+            self._result = mask_token_up, points[0]
+            return mask_high
         else:
-            return None, None
-
-        
-    @torch.no_grad()
-    def update_point(self, image):
-        self.set_image(image)
-        mask_token = self.apply_token(self.predictor.features, self.token)
-        mask_token_up = upscale_mask(mask_token, (image.height, image.width))
-        if torch.count_nonzero(mask_token_up > 0) > 1:
-            point = mask_to_centroid(mask_token_up)
-            mask_high, mask_raw, mask_low = self.predict_mask_point(point, mask_input=mask_token)
-            self.token = 0.99 * self.token + 0.01 * self.fit_token(self.predictor.features, mask_low)
-            result = mask_high, mask_to_centroid(mask_high)
-            self._result = result
-            return result
-        else:
-            return self._result
+            return None

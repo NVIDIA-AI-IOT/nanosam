@@ -26,7 +26,6 @@ predictor = Predictor(
 tracker = Tracker(predictor)
 
 mask = None
-box = None
 point = None
 
 cap = cv2.VideoCapture(0)
@@ -35,7 +34,7 @@ cap = cv2.VideoCapture(0)
 def init_track(event,x,y,flags,param):
     global mask, point
     if event == cv2.EVENT_LBUTTONDBLCLK:
-        mask, point = tracker.init_point(image_pil, (x, y))
+        mask = tracker.init(image_pil, (x, y))
 
 
 cv2.namedWindow('image')
@@ -60,21 +59,23 @@ while True:
     #         mask, box = tracker.init(image_pil, box)
         
     if tracker.token is not None:
-        mask, point = tracker.update_point(image_pil)
+        mask = tracker.update(image_pil)
     
-    if point is not None and mask is not None:
+    if mask is not None:
         bin_mask = mask[0,0].detach().cpu().numpy() < 0
-        image[bin_mask] = (0.0 * image[bin_mask]).astype(np.uint8)
-
-    if point is not None:
-        cv2.circle(image, (int(point[0]), int(point[1])), 5, (0, 255, 0), -1)
+        image[bin_mask] = (0.1 * image[bin_mask]).astype(np.uint8)
+    else:
+        image = (0.1 * image).astype(np.uint8)
+    # if point is not None:
+    #     cv2.circle(image, (int(point[0]), int(point[1])), 5, (0, 255, 0), -1)
     cv2.imshow("image", image)
 
     ret = cv2.waitKey(1)
 
     if ret == ord('q'):
         break
-    elif ret == ord('i'):
+    elif ret == ord('r'):
+        tracker.reset()
         mask = None
         box = None
 
