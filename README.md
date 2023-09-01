@@ -9,7 +9,7 @@ While other lightweight SAM architectures exist, like MobileSAM, we find that af
 encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little
 loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.
 
-## Benchmarks
+## Results
 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
     <thead>
