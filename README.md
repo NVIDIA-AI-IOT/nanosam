@@ -65,9 +65,10 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ## Examples
 
-### Detection to segmentation upgrading
+### Detection to segmentation
+### Pose to segmentation
 
-### Segmentation based tracking
+### Segmentation tracking
 
 
 ## Training
