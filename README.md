@@ -58,7 +58,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
 
 *Notes*
 
-† The MobileSAM image encoder is optimized with FP32 precision because the MobileSAM image encoder produced erroneous results when built for FP16 precision with TensorRT.  The NanoSAM image encoder
+† The MobileSAM image encoder is optimized with FP32 precision because it produced erroneous results when built for FP16 precision with TensorRT.  The NanoSAM image encoder
 is built with FP16 precision as we did not notice a significant accuracy degredation.  Both pipelines use the same mask decoder which is built with FP32 precision.  For all models, the accuracy reported uses the same model configuration used to measure latency.
 
 ‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the mask output of the SAM model for the object and the ground-truth COCO segmentation mask for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
