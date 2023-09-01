@@ -68,6 +68,8 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 ### Detection to segmentation
 ### Pose to segmentation
 
+<img src="assets/pose_out.png"/>
+
 ### Segmentation tracking
 
 
