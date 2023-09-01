@@ -7,7 +7,7 @@ NanoSAM is a Segment Anything (SAM) model variant that is capable of running in 
 
 While other lightweight SAM architectures, like MobileSAM, already exist, we find that after TensorRT optimization, these models are still bottlenecked by the image encoder and achieve sub-realtime framerates.  NanoSAM is trained by distilling the MobileSAM image
 encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little
-loss in accuracy. This enables real-time inference and unlocks new applications like converting bounding box detections into instance segmentations and performing segmentation based tracking.
+loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.
 
 ## Benchmarks
 
