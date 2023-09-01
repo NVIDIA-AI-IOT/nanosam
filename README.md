@@ -70,60 +70,6 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 ### Segmentation based tracking
 
 
-## Usage
-
-### Create predictor
-
-```python3
-from nanosam import Predictor
-
-predictor = Predictor(
-    image_encoder="nanosam_resnet18.engine", 
-    mask_decoder="sam_mask_decoder.engine"
-)
-```
-
-### Segment with points
-
-```python3
-import PIL.Image 
-
-image = PIL.Image.open("dog.jpg")
-
-points = np.array([
-    [x0, y0],  # foreground point
-    [x1, y1],  # foreground point
-    [x2, y2]   # background point
-])
-
-point_labels = np.array([
-    1,  # foreground point
-    1,  # foreground point
-    0   # background point
-])
-
-predictor.set_image(image)
-
-mask, iou, mask_small = predictor.predict(points, point_labels)
-```
-
-### Segment with bounding box
-
-```python3
-points = np.array([
-    [x0, y0],   # bbox top-left
-    [x1, y1]    # bbox bottom-right
-])
-
-point_labels = np.array([
-    2,  # bbox top-left
-    3   # bbox bottom-right
-])
-
-mask, iou, mask_small = predictor.predict(points, point_labels)
-```
-
-
 ## Training
 
 
