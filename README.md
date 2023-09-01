@@ -14,7 +14,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
     <thead>
         <tr>
-            <th rowspan=2 style="text-align: center; border-right: solid 1px">Model</th>
+            <th rowspan=2 style="text-align: center; border-right: solid 1px">Model †</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson Orin Nano (ms)</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson AGX Orin (ms)</th>
             <th colspan=3 style="text-align: center; border-right: solid 1px">Accuracy (mIoU) ‡</th>
@@ -32,7 +32,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
     </thead>
     <tbody>
         <tr>
-            <td style="text-align: center; border-right: solid 1px">MobileSAM †</td>
+            <td style="text-align: center; border-right: solid 1px">MobileSAM</td>
             <td style="text-align: center; border-right: solid 1px"></td>
             <td style="text-align: center; border-right: solid 1px">146</td>
             <td style="text-align: center; border-right: solid 1px">35</td>
@@ -58,7 +58,8 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
 
 *Notes*
 
-† MobileSAM inference and accuracy results are for FP32 precision with TensorRT because MobileSAM produced erroneous results when built for FP16 precision with TensorRT.  NanoSAM inference and accuracy results are for FP16 precision with TensorRT.
+† The MobileSAM image encoder is optimized with FP32 precision because the MobileSAM image encoder produced erroneous results when built for FP16 precision with TensorRT.  The NanoSAM image encoder
+is built with FP16 precision as we did not notice a significant accuracy degredation.  Both pipelines use the same mask decoder which is built with FP32 precision.  For all models, the accuracy reported uses the same model configuration used to measure latency.
 
 ‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the mask output of the SAM model for the object and the ground-truth COCO segmentation mask for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
 
