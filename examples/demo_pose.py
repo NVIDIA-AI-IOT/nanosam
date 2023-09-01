@@ -77,6 +77,7 @@ def subplot_notick(a, b, c):
     ax = plt.subplot(a, b, c)
     ax.set_xticklabels([])
     ax.set_yticklabels([])
+    ax.axis('off')
 
 def predict_and_show(N, index, pose, fg_points, bg_points):
     subplot_notick(2, N, index + 1)
@@ -114,4 +115,4 @@ predict_and_show(
 )
 
 plt.subplots_adjust(wspace=0, hspace=0)
-plt.savefig("out.png")
+plt.savefig("out.png", bbox_inches="tight")
