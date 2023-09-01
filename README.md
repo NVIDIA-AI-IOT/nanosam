@@ -17,7 +17,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <th rowspan=2 style="text-align: center; border-right: solid 1px">Model</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson Orin Nano (ms)</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson AGX Orin (ms)</th>
-            <th colspan=3 style="text-align: center; border-right: solid 1px">Accuracy (mIoU)</th>
+            <th colspan=3 style="text-align: center; border-right: solid 1px">Accuracy (mIoU) ‡</th>
             <th rowspan=2 style="text-align: center; border-right: solid 1px">Download</th>
         </tr>
         <tr>
@@ -32,7 +32,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
     </thead>
     <tbody>
         <tr>
-            <td style="text-align: center; border-right: solid 1px">MobileSAM</td>
+            <td style="text-align: center; border-right: solid 1px">MobileSAM †</td>
             <td style="text-align: center; border-right: solid 1px"></td>
             <td style="text-align: center; border-right: solid 1px">146</td>
             <td style="text-align: center; border-right: solid 1px">35</td>
@@ -55,6 +55,12 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
         </tr>
     </tbody>
 </table>
+
+*Notes*
+
+† MobileSAM inference and accuracy results are for FP32 precision with TensorRT.  MobileSAM produced erroneous results when built for FP16 precision with TensorRT.  NanoSAM inference and accuracy results are for FP16 precision with TensorRT.
+
+‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the output of the SAM model for the object and the ground-truth COCO segmentation for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
 
 ## Examples
 
