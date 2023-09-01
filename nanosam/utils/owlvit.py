@@ -24,7 +24,7 @@ class OwlVit(object):
         boxes, scores, labels = results[i]["boxes"], results[i]["scores"], results[i]["labels"]
         detections = []
         for box, score, label in zip(boxes, scores, labels):
-            detection = {"box": box.tolist(), "score": float(score), "label": int(label), "text": texts[label]}
+            detection = {"bbox": box.tolist(), "score": float(score), "label": int(label), "text": texts[label]}
             detections.append(detection)
         return detections
 
