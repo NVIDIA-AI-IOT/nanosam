@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 from nanosam.utils.owlvit import OwlVit
 from nanosam.utils.predictor import Predictor
-from nanosam.utils.tracker import Tracker
+from nanosam.utils.tracker_online_learning import TrackerOnline
 
 parser = argparse.ArgumentParser()
 parser.add_argument("prompt")
@@ -16,14 +16,14 @@ def cv2_to_pil(image):
     return PIL.Image.fromarray(image)
 
 
-owlvit = OwlVit(threshold=0.1)
+# owlvit = OwlVit(threshold=0.1)
 
 predictor = Predictor(
     "data/resnet18_image_encoder.engine",
     "data/mobile_sam_mask_decoder.engine"
 )
 
-tracker = Tracker(predictor)
+tracker = TrackerOnline(predictor)
 
 mask = None
 point = None
@@ -34,7 +34,7 @@ cap = cv2.VideoCapture(0)
 def init_track(event,x,y,flags,param):
     global mask, point
     if event == cv2.EVENT_LBUTTONDBLCLK:
-        mask = tracker.init(image_pil, (x, y))
+        mask = tracker.init(image_pil, point=(x, y))
 
 
 cv2.namedWindow('image')
@@ -58,7 +58,7 @@ while True:
     #         box = detections[0]['box']
     #         mask, box = tracker.init(image_pil, box)
         
-    if tracker.token is not None:
+    if tracker.object_model is not None:
         mask = tracker.update(image_pil)
     
     if mask is not None:

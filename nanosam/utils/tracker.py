@@ -3,6 +3,11 @@ import torch.nn.functional as F
 from .predictor import Predictor, upscale_mask
 import numpy as np
 import PIL.Image
+import torch
+import torch.nn as nn
+import torch.nn as nn
+import torch.nn.functional as F
+from torchvision.ops import sigmoid_focal_loss
 
 def bbox2points(box):
     return np.array([[box[0], box[1]], [box[2], box[3]]]), np.array([2, 3])
@@ -57,8 +62,11 @@ class Tracker(object):
     def set_image(self, image):
         self.predictor.set_image(image)
 
-    def predict_mask(self, points, point_labels, mask_input=None):
+    def predict_mask(self, points=None, point_labels=None, box=None, mask_input=None):
         
+        if box is not None:
+            points, point_labels = bbox2points(box)
+
         mask_high, iou_pred, mask_raw = self.predictor.predict(points, point_labels, mask_input=mask_input)
 
         idx = int(iou_pred.argmax())
@@ -89,9 +97,12 @@ class Tracker(object):
         return up_to_256(torch.sum(features * token, dim=(1), keepdim=True))
     
     @torch.no_grad()
-    def init(self, image, point):
+    def init(self, image, point=None, box=None):
         self.set_image(image)
-        mask_high, mask_raw, mask_low = self.predict_mask(np.array([point]), np.array([1]))
+
+        if point is not None:
+            mask_high, mask_raw, mask_low = self.predict_mask(np.array([point]), np.array([1]))
+
         self.token = self.fit_token(self.predictor.features, mask_low)
         self.init_token = self.token
 
