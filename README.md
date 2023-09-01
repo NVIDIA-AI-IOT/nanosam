@@ -66,7 +66,28 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 ## Examples
 
 ### Detection to segmentation
+
+Like other SAM variants, NanoSAM can be used to segment objects given a bounding
+box.  We demonstrate this using OWL-ViT for detection.  OWL-ViT is a model
+that is capable of open-vocabulary detection.  This allows you to detect objects
+given a text prompt.  For example, below we run OWL-ViT with the prompt: "A tree" and
+feed these detections to NanoSAM.
+
+<img src="assets/owl_out.png"/>
+
+While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
+as it allows you to detect a wide variety of objects.  You could substitute any
+other real-time pre-trained object detector to take full advantage of NanoSAM's 
+speed.
+
 ### Pose to segmentation
+
+NanoSAM can also be used to segment objects based on foreground and background
+points.  Using NanoSAM in conjunction with a real-time human pose estimator,
+we're able to easily segment clothing and body parts.  Here we show NanoSAM
+predicting segmentation masks for a person detected using [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose).
+By selecting appropriate keypoints as foreground or background, we can control
+which parts we want to segment.
 
 <img src="assets/pose_out.png"/>
 
