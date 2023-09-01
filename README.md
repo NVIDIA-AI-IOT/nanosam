@@ -58,7 +58,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
 
 *Notes*
 
-† MobileSAM inference and accuracy results are for FP32 precision with TensorRT.  MobileSAM produced erroneous results when built for FP16 precision with TensorRT.  NanoSAM inference and accuracy results are for FP16 precision with TensorRT.
+† MobileSAM inference and accuracy results are for FP32 precision with TensorRT because MobileSAM produced erroneous results when built for FP16 precision with TensorRT.  NanoSAM inference and accuracy results are for FP16 precision with TensorRT.
 
 ‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the mask output of the SAM model for the object and the ground-truth COCO segmentation mask for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
 
