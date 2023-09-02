@@ -40,7 +40,7 @@ which parts we want to segment.
 ### Segmentation tracking
 
 
-## Results
+## Performance
 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
     <thead>
