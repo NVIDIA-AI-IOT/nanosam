@@ -21,6 +21,10 @@ feed these detections to NanoSAM.
 
 <img src="assets/owl_out.png"/>
 
+And with the prompt: "A shoe"
+
+<img src="assets/owl_out_shoe.png"/>
+
 While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
 as it allows you to detect a wide variety of objects.  You could substitute any
 other real-time pre-trained object detector to take full advantage of NanoSAM's 
