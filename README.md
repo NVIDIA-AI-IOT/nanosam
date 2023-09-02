@@ -8,39 +8,6 @@ While other lightweight SAM architectures exist, like MobileSAM, we find that af
 encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little
 loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.
 
-## Examples
-
-### Detection to segmentation
-
-Like other SAM variants, NanoSAM can be used to segment objects given a bounding
-box.  We demonstrate this using OWL-ViT for detection.  OWL-ViT is a model
-that is capable of open-vocabulary detection.  This allows you to detect objects
-given a text prompt.  
-
-For example, below we run NanoSAM on OWL-ViT detections created with the prompt: "A tree" 
-
-<img src="assets/owl_out.png"/>
-
-
-While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
-as it allows you to detect a wide variety of objects.  You could substitute any
-other real-time pre-trained object detector to take full advantage of NanoSAM's 
-speed.
-
-### Pose to segmentation
-
-NanoSAM can also be used to segment objects based on foreground and background
-points.  Using NanoSAM in conjunction with a real-time human pose estimator,
-we're able to easily segment clothing and body parts.  Here we show NanoSAM
-predicting segmentation masks for a person detected using [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose).
-By selecting appropriate keypoints as foreground or background, we can control
-which parts we want to segment.
-
-<img src="assets/pose_out.png"/>
-
-### Segmentation tracking
-
-
 ## Performance
 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
@@ -94,6 +61,38 @@ which parts we want to segment.
 is built with FP16 precision as we did not notice a significant accuracy degredation.  Both pipelines use the same mask decoder which is built with FP32 precision.  For all models, the accuracy reported uses the same model configuration used to measure latency.
 
 ‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the mask output of the SAM model for the object and the ground-truth COCO segmentation mask for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
+
+## Examples
+
+### Detection to segmentation
+
+Like other SAM variants, NanoSAM can be used to segment objects given a bounding
+box.  We demonstrate this using OWL-ViT for detection.  OWL-ViT is a model
+that is capable of open-vocabulary detection.  This allows you to detect objects
+given a text prompt.  
+
+For example, below we run NanoSAM on OWL-ViT detections created with the prompt: "A tree" 
+
+<img src="assets/owl_out.png"/>
+
+
+While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
+as it allows you to detect a wide variety of objects.  You could substitute any
+other real-time pre-trained object detector to take full advantage of NanoSAM's 
+speed.
+
+### Pose to segmentation
+
+NanoSAM can also be used to segment objects based on foreground and background
+points.  Using NanoSAM in conjunction with a real-time human pose estimator,
+we're able to easily segment clothing and body parts.  Here we show NanoSAM
+predicting segmentation masks for a person detected using [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose).
+By selecting appropriate keypoints as foreground or background, we can control
+which parts we want to segment.
+
+<img src="assets/pose_out.png"/>
+
+### Segmentation tracking
 
 ## Training
 
