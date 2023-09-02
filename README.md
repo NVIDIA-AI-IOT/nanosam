@@ -16,14 +16,12 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
 Like other SAM variants, NanoSAM can be used to segment objects given a bounding
 box.  We demonstrate this using OWL-ViT for detection.  OWL-ViT is a model
 that is capable of open-vocabulary detection.  This allows you to detect objects
-given a text prompt.  For example, below we run OWL-ViT with the prompt: "A tree" and
-feed these detections to NanoSAM.
+given a text prompt.  
+
+For example, below we run NanoSAM on OWL-ViT detections created with the prompt: "A tree" 
 
 <img src="assets/owl_out.png"/>
 
-And with the prompt: "A shoe"
-
-<img src="assets/owl_out_shoe.png"/>
 
 While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
 as it allows you to detect a wide variety of objects.  You could substitute any
