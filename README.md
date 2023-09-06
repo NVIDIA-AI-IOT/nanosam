@@ -92,7 +92,7 @@ which parts we want to segment.
 
 <img src="assets/pose_out.png"/>
 
-### Segment and track
+### Segment and track (experimental)
 
 ## Training
 
