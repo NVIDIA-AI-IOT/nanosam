@@ -71,3 +71,8 @@ def resnet34():
 @register_model("resnet50")
 def resnet50():
     return TimmImageEncoder('resnet50', pretrained=True)
+
+
+@register_model("efficientvit_b0")
+def resnet18():
+    return TimmImageEncoder('efficientvit_b0', pretrained=True)

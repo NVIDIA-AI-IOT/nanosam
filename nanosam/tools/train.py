@@ -3,7 +3,7 @@ import torch
 import argparse
 from nanosam.utils.predictor import load_image_encoder_engine
 from nanosam.models import create_model, list_models
-from mobile_sam.image_dataset import ImageDataset
+from nanosam.datasets.image_folder import ImageFolder
 import os
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     optimizer = torch.optim.Adam(image_encoder_cnn.parameters(), lr=3e-4)
 
-    dataset = ImageDataset(args.images)
+    dataset = ImageFolder(args.images)
 
     if args.num_images is not None:
         dataset, _ = random_split(dataset, [args.num_images, len(dataset) - args.num_images])
