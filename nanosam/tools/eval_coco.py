@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--coco_root", type=str, default="data/coco/val2017")
-    parser.add_argument("--coco_ann", type=str, default="data/coco/instances_val2017.json")
+    parser.add_argument("--coco_ann", type=str, default="data/coco/annotations/instances_val2017.json")
     parser.add_argument("--image_encoder", type=str, default="data/mobile_sam_image_encoder.engine")
     parser.add_argument("--mask_decoder", type=str, default="data/mobile_sam_mask_decoder.engine")
     parser.add_argument("--output", type=str, default="data/mobile_sam_coco_results.json")

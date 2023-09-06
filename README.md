@@ -99,6 +99,55 @@ which parts we want to segment.
 
 ## Evaluation
 
+First download the COCO 2017 validation set.
+
+```bash
+mkdir -p data/coco
+cd data/coco
+wget http://images.cocodataset.org/zips/val2017.zip
+wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+```
+
+Second, extract the images and annotations
+
+```bash
+unzip val2017.zip
+unzip annotations_trainval2017.zip
+cd ../..
+```
+
+Third, compute the IoU of the mask prediction given the ground truth COCO box,
+against the ground truth COCO mask annotation.
+
+```bash
+python3 -m nanosam.tools.eval_coco \
+    --coco_root=data/coco/val2017 \
+    --coco_ann=data/coco/annotations/instances_val2017.json \
+    --image_encoder=data/resnet18_image_encoder.engine \
+    --mask_decoder=data/sam_mask_decoder.engine \
+    --output=data/resnet18_coco_results.json
+```
+
+Finally, compute the average IoU statistics for given filters, like filtering
+by object size or category.
+
+```bash
+python3 -m nanosam.tools.compute_eval_coco_metrics \
+    data/resnet18_coco_results.json \
+    --size="small"
+```
+
+> For all options type ``python3 -m nanosam.tools.compute_eval_coco_metrics --help``.
+
+To compute the mIoU for a specific category id.
+
+```bash
+python3 -m nanosam.tools.compute_eval_coco_metrics \
+    data/resnet18_coco_results.json \
+    --category_id=1
+```
+
+
 ## Acknowledgement
 
 - [SAM](#)
