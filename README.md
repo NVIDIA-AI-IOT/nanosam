@@ -17,7 +17,6 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson Orin Nano (ms)</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson AGX Orin (ms)</th>
             <th colspan=4 style="text-align: center; border-right: solid 1px">Accuracy (mIoU) ‡</th>
-            <th rowspan=2 style="text-align: center; border-right: solid 1px">Download</th>
         </tr>
         <tr>
             <th style="text-align: center; border-right: solid 1px">Image Encoder</th>
@@ -41,7 +40,6 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <td style="text-align: center; border-right: solid 1px">0.658</td>
             <td style="text-align: center; border-right: solid 1px">0.759</td>
             <td style="text-align: center; border-right: solid 1px">0.804</td>
-            <td style="text-align: center; border-right: solid 1px"><a href="#">ONNX</a></td>
         </tr>
         <tr>
             <td style="text-align: center; border-right: solid 1px">NanoSAM (ResNet18)</td>
@@ -53,7 +51,6 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <td style="text-align: center; border-right: solid 1px">0.624</td>
             <td style="text-align: center; border-right: solid 1px">0.738</td>
             <td style="text-align: center; border-right: solid 1px">0.796</td>
-            <td style="text-align: center; border-right: solid 1px"><a href="#">ONNX</a></td>
         </tr>
     </tbody>
 </table>
