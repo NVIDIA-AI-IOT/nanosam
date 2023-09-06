@@ -63,7 +63,6 @@ detections = pose_model.predict(image)
 
 sam_predictor = Predictor(
     "data/resnet18_image_encoder.engine",
-    # "data/mobile_sam_image_encoder.engine",
     "data/mobile_sam_mask_decoder.engine"
 )
 
