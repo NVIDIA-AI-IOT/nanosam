@@ -16,7 +16,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <th rowspan=2 style="text-align: center; border-right: solid 1px">Model †</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson Orin Nano (ms)</th>
             <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson AGX Orin (ms)</th>
-            <th colspan=3 style="text-align: center; border-right: solid 1px">Accuracy (mIoU) ‡</th>
+            <th colspan=4 style="text-align: center; border-right: solid 1px">Accuracy (mIoU) ‡</th>
             <th rowspan=2 style="text-align: center; border-right: solid 1px">Download</th>
         </tr>
         <tr>
@@ -24,6 +24,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <th style="text-align: center; border-right: solid 1px">Full Pipeline</th>
             <th style="text-align: center; border-right: solid 1px">Image Encoder</th>
             <th style="text-align: center; border-right: solid 1px">Full Pipeline</th>
+            <th style="text-align: center; border-right: solid 1px">All</th>
             <th style="text-align: center; border-right: solid 1px">Small</th>
             <th style="text-align: center; border-right: solid 1px">Medium</th>
             <th style="text-align: center; border-right: solid 1px">Large</th>
@@ -37,6 +38,7 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <td style="text-align: center; border-right: solid 1px">35</td>
             <td style="text-align: center; border-right: solid 1px">39</td>
             <td style="text-align: center; border-right: solid 1px">0.728</td>
+            <td style="text-align: center; border-right: solid 1px">0.658</td>
             <td style="text-align: center; border-right: solid 1px">0.759</td>
             <td style="text-align: center; border-right: solid 1px">0.804</td>
             <td style="text-align: center; border-right: solid 1px"><a href="#">ONNX</a></td>
@@ -47,7 +49,8 @@ loss in accuracy. This enables real-time inference and unlocks new applications 
             <td style="text-align: center; border-right: solid 1px">27</td>
             <td style="text-align: center; border-right: solid 1px">4.2</td>
             <td style="text-align: center; border-right: solid 1px">8.1</td>
-            <td style="text-align: center; border-right: solid 1px">0.704</td>
+            <td style="text-align: center; border-right: solid 1px">0.706</td>
+            <td style="text-align: center; border-right: solid 1px">0.624</td>
             <td style="text-align: center; border-right: solid 1px">0.738</td>
             <td style="text-align: center; border-right: solid 1px">0.796</td>
             <td style="text-align: center; border-right: solid 1px"><a href="#">ONNX</a></td>
