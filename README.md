@@ -107,8 +107,48 @@ wget http://images.cocodataset.org/zips/train2017.zip
 Next, extract the images
 
 ```bash
-cd data/coco
 unzip train2017.zip
+cd ../..
+```
+
+Export the MobileSAM image encoder with batch size 16 to ONNX (To be used as teacher model).
+
+```bash
+python3 -m nanosam.tools.export_sam_image_encoder_onnx \
+    --checkpoint="assets/mobile_sam.pt" \
+    --output="data/mobile_sam_image_encoder_bs16.onnx" \
+    --model_type=vit_t \
+    --batch_size=16
+```
+
+Next, build the image encoder TensorRT engine using trtexec
+
+```bash
+trtexec \
+    --onnx=data/mobile_sam_image_encoder_bs16.onnx \
+    --shapes=image:16x3x1024x1024 \
+    --saveEngine=data/mobile_sam_image_encoder_bs16.engine
+```
+
+Finally, train the NanoSAM model by distilling MobileSAM.
+
+```bash
+python3 -m nanosam.tools.train \
+    --images=data/coco/train2017 \
+    --output_dir=data/models/resnet18 \
+    --model_name=resnet18 \
+    --teacher_image_encoder_engine=data/mobile_sam_image_encoder_bs16.engine \
+    --batch_size=16
+```
+
+Once training, visualizations of progress and checkpoints will be saved to
+the specified output directory.  You can stop training and resume from the last
+saved checkpoint if needed.
+
+For a list of arguments, you can type 
+
+```bash
+python3 -m nanosam.tools.train --help
 ```
 
 ## Evaluation

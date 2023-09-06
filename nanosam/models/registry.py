@@ -10,3 +10,7 @@ def register_model(name: str):
 
 def create_model(name: str):
     return MODELS[name]()
+
+
+def list_models():
+    return sorted(MODELS.keys())

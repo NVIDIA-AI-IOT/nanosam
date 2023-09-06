@@ -17,7 +17,7 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--model-type",
+        "--model_type",
         type=str,
         required=True,
         help="In ['default', 'vit_h', 'vit_l', 'vit_b']. Which type of SAM model to export.",

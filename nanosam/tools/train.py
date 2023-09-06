@@ -2,7 +2,7 @@ import tqdm
 import torch
 import argparse
 from nanosam.utils.predictor import load_image_encoder_engine
-from nanosam.models import create_model
+from nanosam.models import create_model, list_models
 from mobile_sam.image_dataset import ImageDataset
 import os
 import matplotlib.pyplot as plt
@@ -12,17 +12,22 @@ from torch.utils.data import DataLoader, random_split
 if __name__ == "__main__":
         
     parser = argparse.ArgumentParser()
-    parser.add_argument("images", type=str)
-    parser.add_argument("output_dir", type=str)
-    parser.add_argument("--model_name", type=str, default="resnet18")
-    parser.add_argument("--student_size", type=int, default=1024)
-    parser.add_argument("--num_images", type=int, default=None)
-    parser.add_argument("--num_epochs", type=int, default=200)
-    parser.add_argument("--batch_size", type=int, default=16)
-    parser.add_argument("--num_workers", type=int, default=8)
-    parser.add_argument("--learning_rate", type=float, default=3e-4)
-    parser.add_argument("--loss", type=str, default="huber")
-    parser.add_argument("--teacher_image_encoder_engine", type=str, default="data/mobile_sam_image_encoder_bs16.engine")
+    parser.add_argument("images", type=str, help="The path to images to use for distillation")
+    parser.add_argument("output_dir", type=str, help="The directory to store checkpoints and training visualizations.")
+    parser.add_argument("--model_name", type=str, default="resnet18", choices=list_models(), help="The NanoSAM model name.")
+    parser.add_argument("--student_size", type=int, default=1024, help="The size of image to feed to the student during distillation.")
+    parser.add_argument("--num_images", type=int, default=None, help="Limit the number of images per epoch.  Helpful for quick training runs when experimenting.")
+    parser.add_argument("--num_epochs", type=int, default=200, help="The number of training epochs.")
+    parser.add_argument("--batch_size", type=int, default=16, help="The batch size.")
+    parser.add_argument("--num_workers", type=int, default=8, help="The number of data loader workers.")
+    parser.add_argument("--learning_rate", type=float, default=3e-4, help='The learning rate.')
+    parser.add_argument("--loss", type=str, default="huber", choices=["huber", "l1", "mse"],
+        help="The loss function to use for distillation.")
+    parser.add_argument("--teacher_image_encoder_engine", 
+        type=str, 
+        default="data/mobile_sam_image_encoder_bs16.engine",
+        help="The path to the image encoder engine to use as a teacher model."
+    )
     args = parser.parse_args()
 
     if not os.path.exists(args.output_dir):
@@ -63,7 +68,7 @@ if __name__ == "__main__":
     for epoch in range(start_epoch, args.num_epochs):
 
         epoch_loss = 0.
-        
+
         for image in tqdm.tqdm(iter(loader)):
             image = image.cuda()
             if len(image) != args.batch_size:
