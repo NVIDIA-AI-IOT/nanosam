@@ -1,2 +1,12 @@
+MODELS = {}
+
+
+def register_model(name: str):
+    def _register_model(fn):
+        MODELS[name] = fn
+        return fn
+    return _register_model
+
+
 def create_model(name: str):
-    pass
+    return MODELS[name]()
