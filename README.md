@@ -92,7 +92,7 @@ which parts we want to segment.
 
 <img src="assets/pose_out.png"/>
 
-### Click, segment and track
+### Segment and track
 
 ## Training
 
