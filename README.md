@@ -64,7 +64,7 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ## Examples
 
-### Detection to segmentation
+### Segment from detections
 
 Like other SAM variants, NanoSAM can be used to segment objects given a bounding
 box.  We demonstrate this using OWL-ViT for detection.  OWL-ViT is a model
@@ -81,7 +81,7 @@ as it allows you to detect a wide variety of objects.  You could substitute any
 other real-time pre-trained object detector to take full advantage of NanoSAM's 
 speed.
 
-### Pose to segmentation
+### Segment from pose
 
 NanoSAM can also be used to segment objects based on foreground and background
 points.  Using NanoSAM in conjunction with a real-time human pose estimator,
@@ -92,7 +92,7 @@ which parts we want to segment.
 
 <img src="assets/pose_out.png"/>
 
-### Segmentation tracking
+### Click, segment and track
 
 ## Training
 
