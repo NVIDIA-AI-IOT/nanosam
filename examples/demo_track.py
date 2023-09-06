@@ -2,7 +2,6 @@ import PIL.Image
 import cv2
 import numpy as np
 import argparse
-from nanosam.utils.owlvit import OwlVit
 from nanosam.utils.predictor import Predictor
 from nanosam.utils.tracker_online_learning import TrackerOnline
 
@@ -14,9 +13,6 @@ prompt = args.prompt
 def cv2_to_pil(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return PIL.Image.fromarray(image)
-
-
-# owlvit = OwlVit(threshold=0.1)
 
 predictor = Predictor(
     "data/resnet18_image_encoder.engine",
@@ -50,14 +46,6 @@ while True:
 
     image_pil = cv2_to_pil(image)
 
-    # if box is None:
-
-    #     detections = owlvit.predict(image_pil, texts=[prompt])
-
-    #     if len(detections) > 0:
-    #         box = detections[0]['box']
-    #         mask, box = tracker.init(image_pil, box)
-        
     if tracker.object_model is not None:
         mask = tracker.update(image_pil)
     
@@ -66,8 +54,7 @@ while True:
         image[bin_mask] = (0.1 * image[bin_mask]).astype(np.uint8)
     else:
         image = (0.1 * image).astype(np.uint8)
-    # if point is not None:
-    #     cv2.circle(image, (int(point[0]), int(point[1])), 5, (0, 255, 0), -1)
+        
     cv2.imshow("image", image)
 
     ret = cv2.waitKey(1)
