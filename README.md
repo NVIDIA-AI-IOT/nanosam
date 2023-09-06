@@ -134,7 +134,7 @@ by object size or category.
 ```bash
 python3 -m nanosam.tools.compute_eval_coco_metrics \
     data/resnet18_coco_results.json \
-    --size="small"
+    --size="all"
 ```
 
 > For all options type ``python3 -m nanosam.tools.compute_eval_coco_metrics --help``.
