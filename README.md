@@ -99,6 +99,20 @@ which parts we want to segment.
 
 ## Training
 
+First download the COCO 2017 training images
+
+```bash
+mkdir -p data/coco
+cd data/coco
+wget http://images.cocodataset.org/zips/train2017.zip
+```
+
+Next, extract the images
+
+```bash
+cd data/coco
+unzip train2017.zip
+```
 
 ## Evaluation
 
