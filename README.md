@@ -109,7 +109,71 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ### Step 1 - Setup system
 
-### Step 2 - 
+Install the following dependencies:
+
+1. PyTorch
+2. torch2trt
+3. NVIDIA TensorRT
+4. (optional) TRTPose - For the pose example.
+5. (optional) transformers - For the OWL ViT example.
+
+### Step 2 - Build the mask decoder
+
+The same mask decoder is used for all model variants.
+
+First, download the mask decoder ONNX file to ``data/mobile_sam_mask_decoder.onnx``.
+
+Next, build the mask decoder with NVIDIA TensorRT.
+
+```bash
+trtexec \
+    --onnx=data/mobile_sam_mask_decoder.onnx \
+    --saveEngine=data/mobile_sam_mask_decoder.engine \
+    --minShapes=point_coords:1x1x2,point_labels:1x1 \
+    --optShapes=point_coords:1x1x2,point_labels:1x1 \
+    --maxShapes=point_coords:1x10x2,point_labels:1x10
+```
+
+> Note:  The above command will support up to 10 point labels, and is optimized
+> for 1 point label.  You could increase this limit as needed.
+
+### Step 3 - Build the image encoder
+
+First, download the ONNX file for the image encoder.  We provide both the
+NanoSAM image encoder, as well as the original MobileSAM image encoder for
+convenience.
+
+| Name | Download | Recommended Precision |
+|------|----------|---|
+| NanoSAM (Resnet18) | [ONNX](#)  | FP16 |
+| MobileSAM (TinyViT) | [ONNX](#) | FP32 |
+
+Next, build the image encoder with NVIDIA TensorRT.  For example, to build
+the Nanosam (resnet18) image encoder with FP16 precision, you can call.
+
+```bash
+trtexec \
+    --onnx=data/resnet18_image_encoder.onnx \
+    --saveEngine=data/resnet18_image_encoder.engine \
+    --fp16
+```
+
+### Step 4 - Run the basic usage example
+
+To test everything is working properly, run the basic usage example.
+
+```
+python3 examples/basic_usage.py \
+    --image_encoder=data/resnet18_image_encoder.engine \
+    --mask_decoder=data/mobile_sam_mask_decoder.engine
+```
+
+You should see an image created ``data/basic_usage_out.jpg`` that shows the
+segmentation result.
+
+That's it!  From there, you can read the example code for examples on how
+to use NanoSAM with Python.  Or try running the more advanced examples below.
+
 ## Examples
 
 ### Segment from detections
