@@ -153,7 +153,45 @@ python3 -m nanosam.tools.train --help
 
 ## Evaluation
 
-First download the COCO 2017 validation set.
+Export the image encoder model to ONNX.
+
+```bash
+python3 -m nanosam.tools.export_image_encoder_onnx \
+    --model_name=efficientvit_b0 \
+    --checkpoint="data/models/efficientvit_b0/checkpoint.pth" \
+    --output="data/efficientvit_b0_image_encoder.onnx"
+```
+
+Build the image encoder TensorRT engine.
+
+```bash
+trtexec \
+    --onnx=data/efficientvit_b0_image_encoder.onnx \
+    --saveEngine=data/efficientvit_b0_image_encoder.engine \
+    --fp16
+```
+
+Export the mask decoder to ONNX
+
+```bash
+python -m nanosam.tools.export_sam_mask_decoder_onnx \
+    --checkpoint assets/mobile_sam.pt \
+    --model-type vit_t \
+    --output ./data/mobile_sam_mask_decoder.onnx
+```
+
+Build the mask decoder TensorRT engine.
+
+```bash
+trtexec \
+    --onnx=data/mobile_sam_mask_decoder.onnx \
+    --saveEngine=data/mobile_sam_mask_decoder.engine \
+    --minShapes=point_coords:1x1x2,point_labels:1x1 \
+    --optShapes=point_coords:1x1x2,point_labels:1x1 \
+    --maxShapes=point_coords:1x10x2,point_labels:1x10
+```
+
+Download the COCO 2017 validation set.
 
 ```bash
 mkdir -p data/coco
@@ -162,7 +200,7 @@ wget http://images.cocodataset.org/zips/val2017.zip
 wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
 ```
 
-Second, extract the images and annotations
+Extract the images and annotations
 
 ```bash
 unzip val2017.zip
@@ -170,19 +208,19 @@ unzip annotations_trainval2017.zip
 cd ../..
 ```
 
-Third, compute the IoU of the mask prediction given the ground truth COCO box,
+Compute the IoU of the mask prediction given the ground truth COCO box,
 against the ground truth COCO mask annotation.
 
 ```bash
 python3 -m nanosam.tools.eval_coco \
     --coco_root=data/coco/val2017 \
     --coco_ann=data/coco/annotations/instances_val2017.json \
-    --image_encoder=data/resnet18_image_encoder.engine \
+    --image_encoder=data/efficientvit_b0_image_encoder.engine \
     --mask_decoder=data/sam_mask_decoder.engine \
-    --output=data/resnet18_coco_results.json
+    --output=data/efficientvit_b0_coco_results.json
 ```
 
-Finally, compute the average IoU statistics for given filters, like filtering
+Compute the average IoU statistics for given filters, like filtering
 by object size or category.
 
 ```bash

@@ -10,8 +10,8 @@
 
 import torch
 
-from mobile_sam import sam_model_registry
-from mobile_sam.utils.onnx import SamOnnxModel
+from nanosam.mobile_sam import sam_model_registry
+from nanosam.mobile_sam.utils.onnx import SamOnnxModel
 
 import argparse
 import warnings
