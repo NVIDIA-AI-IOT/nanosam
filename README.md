@@ -2,6 +2,7 @@
 
 NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on NVIDIA Jetson platforms with NVIDIA TensorRT.  
 
+<img src="assets/tshirt_gif_compressed_v2.gif", height="256"/>
 <img src="assets/mouse_gif_compressed.gif" height="256"/>
 
 *Why NanoSAM?*
@@ -221,6 +222,14 @@ which parts we want to segment.
 
 <img src="assets/pose_out.png"/>
 
+We provide a live camera demo to segment your T-Shirt using pose.
+
+<img src="assets/tshirt_gif_compressed_v2.gif"/>
+
+```python3
+python3 examples/demo_pose_tshirt.py
+```
+
 ### Segment and track (experimental)
 
 We also include an experimental example demonstrating tracking a segmentation
@@ -231,7 +240,7 @@ mask with NanoSAM.
 To run this example, you need an attached display.  Then call,
 
 ```python3
-python3 examples/click_segment_track.py <image_encoder_engine> <mask_decoder_engine>
+python3 examples/demo_click_segment_track.py <image_encoder_engine> <mask_decoder_engine>
 ```
 
 This is a very simple tracker that is primarily for illustrative purposes.  It works
