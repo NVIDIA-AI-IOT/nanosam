@@ -7,7 +7,7 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 SAM is a general segmentation model that is capable of turning point(s) (or boxes) into segmentation
 masks.  Unfortunately, the image encoder in SAM is large and does not run in real-time.
 [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) improves the runtime of SAM
-by replacing the image encoder with a smaller ViT model, but we find that after TensorRT optimization, this image encoder is still a bottleneck and MobileSAM achieves sub-realtime framerates on NVIDIA Jetson Orin Nano.  NanoSAM is trained by distilling the MobileSAM image encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.  
+by replacing the image encoder with a Tiny ViT architecture, but we find that after TensorRT optimization, this image encoder is still a bottleneck and MobileSAM achieves sub-realtime framerates on NVIDIA Jetson Orin Nano.  NanoSAM is trained by distilling the MobileSAM image encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.  
 
 > While our goal was to provide a real-time variant of SAM on NVIDIA Jetson platforms,
 > you may find this model helpful for other NVIDIA platforms as well!
