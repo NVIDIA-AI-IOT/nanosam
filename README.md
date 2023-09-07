@@ -105,6 +105,11 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the mask output of the SAM model for the object and the ground-truth COCO segmentation mask for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
 
+## Quick Start
+
+### Step 1 - Setup system
+
+### Step 2 - 
 ## Examples
 
 ### Segment from detections
@@ -289,5 +294,7 @@ python3 -m nanosam.tools.compute_eval_coco_metrics \
 
 ## Acknowledgement
 
-- [SAM](#)
-- [MobileSAM](#) 
+This work is enabled by the great projects below.
+
+- [SAM](https://github.com/facebookresearch/segment-anything) - The original Segment Anything model.
+- [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) - The distilled Tiny ViT Segment Anything model.
