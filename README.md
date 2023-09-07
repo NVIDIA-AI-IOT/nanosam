@@ -134,7 +134,17 @@ Install the following dependencies:
 4. (optional) [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) - For the pose example.
 5. (optional) transformers - For the OWL ViT example.
 
-### Step 2 - Build the mask decoder
+### Step 2 - Install NanoSAM
+
+Install NanoSAM with the following command.
+
+```bash
+git clone https://github.com/NVIDIA-AI-IOT/nanosam
+cd nanosam
+python3 setup.py develop --user
+```
+
+### Step 3 - Build the mask decoder
 
 The same mask decoder is used for all model variants.
 
@@ -158,7 +168,7 @@ trtexec \
 > Note:  The above command will support up to 10 point labels, and is optimized
 > for 1 point label.  You could increase this limit as needed.
 
-### Step 3 - Build the image encoder
+### Step 4 - Build the image encoder
 
 First, download the ONNX file for the image encoder.  We provide both the
 NanoSAM image encoder, as well as the original MobileSAM image encoder for
@@ -179,7 +189,7 @@ trtexec \
     --fp16
 ```
 
-### Step 4 - Run the basic usage example
+### Step 5 - Run the basic usage example
 
 To test everything is working properly, run the basic usage example.
 
