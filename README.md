@@ -1,12 +1,13 @@
 # NanoSAM
 
-NanoSAM is a Segment Anything (SAM) model variant that is capable of running in real-time on NVIDIA Jetson platforms with NVIDIA TensorRT.  
+NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on NVIDIA Jetson platforms with NVIDIA TensorRT.  
 
 *Why NanoSAM?*
 
-While other lightweight SAM architectures exist, like MobileSAM, we find that after TensorRT optimization, these models are still bottlenecked by the image encoder and achieve sub-realtime framerates on NVIDIA Jetson Orin Nano.  NanoSAM is trained by distilling the MobileSAM image
-encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little
-loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.
+SAM is a general segmentation model that is capable of turning points into segmentation
+masks.  Unfortunately, the image encoder in SAM is large and does not run in real-time.
+[MobileSAM](https://github.com/ChaoningZhang/MobileSAM) improves the runtime of SAM
+by replacing the image encoder with a smaller ViT model, but we find that after TensorRT optimization, this image encoder is still a bottleneck and MobileSAM achieves sub-realtime framerates on NVIDIA Jetson Orin Nano.  NanoSAM is trained by distilling the MobileSAM image encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.  
 
 > While our goal was to provide a real-time variant of SAM on NVIDIA Jetson platforms,
 > you may find this model helpful for other NVIDIA platforms as well!
@@ -271,7 +272,7 @@ by object size or category.
 
 ```bash
 python3 -m nanosam.tools.compute_eval_coco_metrics \
-    data/resnet18_coco_results.json \
+    data/efficientvit_b0_coco_results.json \
     --size="all"
 ```
 
