@@ -134,6 +134,7 @@ class Tracker(object):
         mask_token = self.apply_token(self.predictor.features, self.token)
         mask_token_up = upscale_mask(mask_token, (image.height, image.width))
         if torch.count_nonzero(mask_token_up > 0.0) > 1:
+            
             # fg_points, bg_points = mask_to_sample_points(mask_token_up)
             # points = np.concatenate([fg_points, bg_points], axis=0)
             # point_labels = np.concatenate([np.ones((len(fg_points),), dtype=np.int64), np.zeros((len(bg_points),), dtype=np.int64)], axis=0)
@@ -141,9 +142,21 @@ class Tracker(object):
             points = np.array([mask_to_centroid(mask_token_up)])
             point_labels = np.array([1])
             mask_high, mask_raw, mask_low = self.predict_mask(points, point_labels, mask_input=mask_token)
-            self.token = 0.995 * self.token + 0.005 * self.fit_token(self.predictor.features, mask_low)
-            self._result = mask_high, points[0]
-            self._result = mask_token_up, points[0]
-            return mask_high
+
+            
+        
+            a = mask_token > 0
+            b = mask_raw > 0
+            inter = torch.count_nonzero(a & b)
+            union = torch.count_nonzero(a | b)
+            iou = float(inter) / (1e-3 + float(union))
+
+            if iou > 0.1:
+                self.token = 0.8 * self.token + 0.2 * self.fit_token(self.predictor.features, mask_low)
+                self._result = mask_high, points[0]
+                self._result = mask_token_up, points[0]
+                return mask_high, (int(points[0,0]), int(points[0,1]))
+            else:
+                return None, None
         else:
-            return None
+            return None, None

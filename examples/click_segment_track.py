@@ -18,23 +18,23 @@ import cv2
 import numpy as np
 import argparse
 from nanosam.utils.predictor import Predictor
-from nanosam.utils.tracker_online_learning import TrackerOnline
+from nanosam.utils.tracker import Tracker
 
 parser = argparse.ArgumentParser()
-parser.add_argument("prompt")
+parser.add_argument("--image_encoder", type=str, default="data/resnet18_image_encoder.engine")
+parser.add_argument("--mask_decoder", type=str, default="data/mobile_sam_mask_decoder.engine")
 args = parser.parse_args()
-prompt = args.prompt
 
 def cv2_to_pil(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return PIL.Image.fromarray(image)
 
 predictor = Predictor(
-    "data/resnet18_image_encoder.engine",
-    "data/mobile_sam_mask_decoder.engine"
+    args.image_encoder,
+    args.mask_decoder
 )
 
-tracker = TrackerOnline(predictor)
+tracker = Tracker(predictor)
 
 mask = None
 point = None
@@ -46,6 +46,7 @@ def init_track(event,x,y,flags,param):
     global mask, point
     if event == cv2.EVENT_LBUTTONDBLCLK:
         mask = tracker.init(image_pil, point=(x, y))
+        point = (x, y)
 
 
 cv2.namedWindow('image')
@@ -61,15 +62,29 @@ while True:
 
     image_pil = cv2_to_pil(image)
 
-    if tracker.object_model is not None:
-        mask = tracker.update(image_pil)
+    if tracker.token is not None:
+        mask, point = tracker.update(image_pil)
     
+    # Draw mask
     if mask is not None:
-        bin_mask = mask[0,0].detach().cpu().numpy() < 0
-        image[bin_mask] = (0.1 * image[bin_mask]).astype(np.uint8)
-    else:
-        image = (0.1 * image).astype(np.uint8)
-        
+        bin_mask = (mask[0,0].detach().cpu().numpy() < 0)
+        green_image = np.zeros_like(image)
+        green_image[:, :] = (0, 185, 118)
+        green_image[bin_mask] = 0
+
+        image = cv2.addWeighted(image, 0.4, green_image, 0.6, 0)
+
+    # Draw center
+    if point is not None:
+
+        image = cv2.circle(
+            image,
+            point,
+            5,
+            (0, 185, 118),
+            -1
+        )
+
     cv2.imshow("image", image)
 
     ret = cv2.waitKey(1)
