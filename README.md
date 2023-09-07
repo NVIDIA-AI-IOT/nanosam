@@ -2,8 +2,7 @@
 
 NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on NVIDIA Jetson platforms with NVIDIA TensorRT.  
 
-<img src="assets/tshirt_gif_compressed_v2.gif" height="196"/>
-<img src="assets/mouse_gif_compressed.gif" height="196"/>
+<img src="assets/tshirt_gif_compressed_v2.gif" height="196"/> <img src="assets/mouse_gif_compressed.gif" height="196"/>
 
 *Why NanoSAM?*
 
