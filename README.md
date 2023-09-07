@@ -123,9 +123,9 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 Install the following dependencies:
 
 1. PyTorch
-2. torch2trt
+2. [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
 3. NVIDIA TensorRT
-4. (optional) TRTPose - For the pose example.
+4. (optional) [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) - For the pose example.
 5. (optional) transformers - For the OWL ViT example.
 
 ### Step 2 - Build the mask decoder
