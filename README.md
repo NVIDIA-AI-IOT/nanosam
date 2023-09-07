@@ -44,6 +44,11 @@ encoder by following the [training instructions](#training).
 
 ## Performance
 
+NanoSAM is capable of running in real-time on NVIDIA Jetson Orin Nano with TensorRT.
+Below is a table that compares the performance and accuracy of different image
+encoders, including the original MobileSAM (which we have also optimized with
+TesnorRT).
+
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
     <thead>
         <tr>
@@ -66,7 +71,7 @@ encoder by following the [training instructions](#training).
     <tbody>
         <tr>
             <td style="text-align: center; border-right: solid 1px">MobileSAM</td>
-            <td style="text-align: center; border-right: solid 1px"></td>
+            <td style="text-align: center; border-right: solid 1px">TBD</td>
             <td style="text-align: center; border-right: solid 1px">146</td>
             <td style="text-align: center; border-right: solid 1px">35</td>
             <td style="text-align: center; border-right: solid 1px">39</td>
@@ -77,7 +82,7 @@ encoder by following the [training instructions](#training).
         </tr>
         <tr>
             <td style="text-align: center; border-right: solid 1px">NanoSAM (ResNet18)</td>
-            <td style="text-align: center; border-right: solid 1px"></td>
+            <td style="text-align: center; border-right: solid 1px">TBD</td>
             <td style="text-align: center; border-right: solid 1px">27</td>
             <td style="text-align: center; border-right: solid 1px">4.2</td>
             <td style="text-align: center; border-right: solid 1px">8.1</td>
