@@ -12,6 +12,15 @@ by replacing the image encoder with a Tiny ViT architecture, but we find that af
 > While our goal was to provide a real-time variant of SAM on NVIDIA Jetson platforms,
 > you may find this model helpful for other NVIDIA platforms as well!
 
+## Contents
+
+- [Usage](#usage)
+- [Performance](#performance)
+- [Quick Start](#quick-start)
+- [Training](#training)
+- [Evaluation](#evaluation)
+- [Acknowledgement](#acknowledgement)
+
 ## Usage
 
 NanoSAM provides a simple Python interface for inference.  With this interface,
@@ -45,6 +54,8 @@ The point labels may be
 The engine files are constructed by downloading the corresponding ONNX files,
 and building the engines with TensorRT.  You can also train a new NanoSAM image
 encoder by following the [training instructions](#training).
+
+For more details on how to use NanoSAM, check the [quick start](#quick-start) and [examples](#examples).
 
 ## Performance
 
