@@ -10,7 +10,11 @@ masks.  Unfortunately, the image encoder in SAM is large and does not run in rea
 by replacing the image encoder with a Tiny ViT architecture, but we find that after TensorRT optimization, this image encoder is still a bottleneck and MobileSAM achieves sub-realtime framerates on NVIDIA Jetson Orin Nano.  NanoSAM is trained by distilling the MobileSAM image encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.  
 
 > While our goal was to provide a real-time variant of SAM on NVIDIA Jetson platforms,
-> you may find this model helpful for other NVIDIA platforms as well!
+> you may find this model helpful for other NVIDIA platforms as well!  In addition,
+> this project contains examples for optimizing SAM model variants with
+> TensorRT.  Even if you don't want to use the NanoSAM architecture, you
+> may find these utilities helpful.
+
 
 ## Contents
 
@@ -53,7 +57,7 @@ The point labels may be
 
 The engine files are constructed by downloading the corresponding ONNX files,
 and building the engines with TensorRT.  You can also train a new NanoSAM image
-encoder by following the [training instructions](#training).
+encoder by following the [training instructions](#training). 
 
 For more details on how to use NanoSAM, check the [quick start](#quick-start) and [examples](#examples).
 
