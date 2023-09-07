@@ -47,7 +47,7 @@ encoder by following the [training instructions](#training).
 NanoSAM is capable of running in real-time on NVIDIA Jetson Orin Nano with TensorRT.
 Below is a table that compares the performance and accuracy of different image
 encoders, including the original MobileSAM (which we have also optimized with
-TesnorRT).
+TensorRT).
 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
     <thead>
