@@ -8,6 +8,40 @@ While other lightweight SAM architectures exist, like MobileSAM, we find that af
 encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little
 loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.
 
+## Usage
+
+NanoSAM provides a simple Python interface for inference.  With this interface,
+you provide a set of points and point labels, and use these points to predict 
+the object mask.
+
+```python3
+from nanosam.utils.predictor import Predictor
+
+predictor = Predictor(
+    image_encoder="data/resnet18_image_encoder.engine",
+    mask_decoder="data/mobile_sam_mask_decoder.engine"
+)
+
+image = PIL.Image.open("dog.jpg")
+
+predictor.set_image(image)
+
+mask, _, _ = predictor.predict(np.array([[x, y]]), np.array([1]))
+```
+
+The point labels may be
+
+| Point Label | Description |
+|:--------------------:|-------------|
+| 0 | Background point |
+| 1 | Foreground point |
+| 2 | Bounding box top-left |
+| 3 | Bounding box bottom-right |
+
+The engine files are constructed by downloading the corresponding ONNX files,
+and building the engines with TensorRT.  You can also train a new NanoSAM image
+encoder by following the [training instructions](#training).
+
 ## Performance
 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
