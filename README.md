@@ -8,6 +8,9 @@ While other lightweight SAM architectures exist, like MobileSAM, we find that af
 encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little
 loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.
 
+> Note:  While we are focused on providing a real-time variant of SAM on NVIDIA Jetson platforms,
+> you may find this model helpful for other NVIDIA platforms as well!
+
 ## Usage
 
 NanoSAM provides a simple Python interface for inference.  With this interface,
