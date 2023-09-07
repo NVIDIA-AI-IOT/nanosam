@@ -12,3 +12,42 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import numpy as np
+import matplotlib.pyplot as plt
+import PIL.Image
+from nanosam.utils.predictor import Predictor
+
+
+# Instantiate TensorRT predictor
+predictor = Predictor(
+    "data/resnet18_image_encoder.engine",
+    "data/mobile_sam_mask_decoder.engine"
+)
+
+# Read image and run image encoder
+image = PIL.Image.open("assets/dogs.jpg")
+predictor.set_image(image)
+
+# Segment using bounding box
+bbox = [100, 100, 850, 759]  # x0, y0, x1, y1
+
+points = np.array([
+    [bbox[0], bbox[1]],
+    [bbox[2], bbox[3]]
+])
+
+point_labels = np.array([2, 3])
+
+mask, _, _ = predictor.predict(points, point_labels)
+
+mask = (mask[0, 0] > 0).detach().cpu().numpy()
+
+# Draw resykts
+plt.imshow(image)
+plt.imshow(mask, alpha=0.5)
+x = [bbox[0], bbox[2], bbox[2], bbox[0], bbox[0]]
+y = [bbox[1], bbox[1], bbox[3], bbox[3], bbox[1]]
+plt.plot(x, y, 'g-')
+plt.savefig("data/basic_usage_out.jpg")
+
