@@ -2,6 +2,8 @@
 
 NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on NVIDIA Jetson platforms with NVIDIA TensorRT.  
 
+<img src="assets/mouse_gif_compressed.gif" height="256"/>
+
 *Why NanoSAM?*
 
 SAM is a general segmentation model that is capable of turning point(s) (or boxes) into segmentation
@@ -220,6 +222,28 @@ which parts we want to segment.
 <img src="assets/pose_out.png"/>
 
 ### Segment and track (experimental)
+
+We also include an experimental example demonstrating tracking a segmentation
+mask with NanoSAM.  
+
+<img src="assets/mouse_gif_compressed.gif"/>
+
+To run this example, you need an attached display.  Then call,
+
+```python3
+python3 examples/click_segment_track.py <image_encoder_engine> <mask_decoder_engine>
+```
+
+This is a very simple tracker that is primarily for illustrative purposes.  It works
+by roughly doing the following:
+
+1. Computing an initial mask given a clicked point
+2. Fitting a simple linear model to predict the mask output from SAM given the SAM image features.
+3. Using the linear model to predict the next frame's mask
+4. Refining the predicted mask using the centroid of the mask as input to NanoSAM
+5. Updating the linear model based on the refined mask.
+
+This demonstrates the creative ways you can apply NanoSAM for real-time mask processing.
 
 ## Training
 
