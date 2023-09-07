@@ -216,7 +216,7 @@ python3 -m nanosam.tools.eval_coco \
     --coco_root=data/coco/val2017 \
     --coco_ann=data/coco/annotations/instances_val2017.json \
     --image_encoder=data/efficientvit_b0_image_encoder.engine \
-    --mask_decoder=data/sam_mask_decoder.engine \
+    --mask_decoder=data/mobile_sam_mask_decoder.engine \
     --output=data/efficientvit_b0_coco_results.json
 ```
 
