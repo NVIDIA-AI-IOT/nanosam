@@ -157,17 +157,17 @@ Export the image encoder model to ONNX.
 
 ```bash
 python3 -m nanosam.tools.export_image_encoder_onnx \
-    --model_name=efficientvit_b0 \
-    --checkpoint="data/models/efficientvit_b0/checkpoint.pth" \
-    --output="data/efficientvit_b0_image_encoder.onnx"
+    --model_name=resnet18 \
+    --checkpoint="data/models/resnet18/checkpoint.pth" \
+    --output="data/resnet18_image_encoder.onnx"
 ```
 
 Build the image encoder TensorRT engine.
 
 ```bash
 trtexec \
-    --onnx=data/efficientvit_b0_image_encoder.onnx \
-    --saveEngine=data/efficientvit_b0_image_encoder.engine \
+    --onnx=data/resnet18_image_encoder.onnx \
+    --saveEngine=data/resnet18_image_encoder.engine \
     --fp16
 ```
 
@@ -215,9 +215,9 @@ against the ground truth COCO mask annotation.
 python3 -m nanosam.tools.eval_coco \
     --coco_root=data/coco/val2017 \
     --coco_ann=data/coco/annotations/instances_val2017.json \
-    --image_encoder=data/efficientvit_b0_image_encoder.engine \
+    --image_encoder=data/resnet18_image_encoder.engine \
     --mask_decoder=data/mobile_sam_mask_decoder.engine \
-    --output=data/efficientvit_b0_coco_results.json
+    --output=data/resnet18_coco_results.json
 ```
 
 Compute the average IoU statistics for given filters, like filtering
