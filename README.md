@@ -139,6 +139,10 @@ Install the following dependencies:
 
 The same mask decoder is used for all model variants.
 
+| Name | Download |
+|------|----------|
+| Mask Decoder | [ONNX](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link) |
+
 First, download the mask decoder ONNX file to ``data/mobile_sam_mask_decoder.onnx``.
 
 Next, build the mask decoder with NVIDIA TensorRT.
@@ -163,8 +167,8 @@ convenience.
 
 | Name | Download | Recommended Precision |
 |------|----------|---|
-| NanoSAM (Resnet18) | [ONNX](#)  | FP16 |
-| MobileSAM (TinyViT) | [ONNX](#) | FP32 |
+| NanoSAM (Resnet18) | [ONNX](https://drive.google.com/file/d/14-SsvoaTl-esC3JOzomHDnI9OGgdO2OR/view?usp=drive_link)  | FP16 |
+| MobileSAM (TinyViT) | [ONNX](https://drive.google.com/file/d/18c6adYGUD8Gwl3_tBipSDHSRcOA2U0zJ/view?usp=drive_link) | FP32 |
 
 Next, build the image encoder with NVIDIA TensorRT.  For example, to build
 the Nanosam (resnet18) image encoder with FP16 precision, you can call.
