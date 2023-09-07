@@ -130,7 +130,11 @@ which parts we want to segment.
 
 ## Training
 
-First download the COCO 2017 training images
+First download the COCO 2017 training images.
+
+> Note: NanoSAM only needs a folder of images.  We choose COCO because it is easy to
+> download and coverse diverse real-world scenarios.  You could use your own
+> images instead.
 
 ```bash
 mkdir -p data/coco
