@@ -97,80 +97,6 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 </details>
 
-## Getting Started
-
-1. Install the dependencies
-
-    1. Install PyTorch
-
-    2. Install [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
-    3. Install NVIDIA TensorRT
-    4. (optional) Install [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) - For the pose example.
-        
-        ```bash
-        git clone https://github.com/NVIDIA-AI-IOT/trt_pose
-        cd trt_pose
-        python3 setup.py develop --user
-        ```
-
-    5. (optional) Install the Transformers library - For the OWL ViT example.
-
-        ```bash
-        python3 -m pip install transformers
-        ```
-
-2. Install the NanoSAM Python package
-    
-    ```bash
-    git clone https://github.com/NVIDIA-AI-IOT/nanosam
-    cd nanosam
-    python3 setup.py develop --user
-    ```
-
-3. Build the TensorRT engine for the mask decoder
-
-    1. Download the mask decoder: [mobile_sam_mask_decoder.onnx](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link) 
-
-    2. Build the TensorRT engine
-
-        ```bash
-        trtexec \
-            --onnx=data/mobile_sam_mask_decoder.onnx \
-            --saveEngine=data/mobile_sam_mask_decoder.engine \
-            --minShapes=point_coords:1x1x2,point_labels:1x1 \
-            --optShapes=point_coords:1x1x2,point_labels:1x1 \
-            --maxShapes=point_coords:1x10x2,point_labels:1x10
-        ```
-
-        > This assumes the mask decoder ONNX file is downloaded to ``data/mobile_sam_mask_decoder.onnx``
-
-4. Build the TensorRT engine for the NanoSAM image encoder
-
-    1. Download the image encoder: [resnet18_image_encoder.onnx](https://drive.google.com/file/d/14-SsvoaTl-esC3JOzomHDnI9OGgdO2OR/view?usp=drive_link)
-    
-    2. Build the TensorRT engine
-
-        ```bash
-        trtexec \
-            --onnx=data/resnet18_image_encoder.onnx \
-            --saveEngine=data/resnet18_image_encoder.engine \
-            --fp16
-        ```
-
-5. Run the basic usage example
-
-    ```
-    python3 examples/basic_usage.py \
-        --image_encoder=data/resnet18_image_encoder.engine \
-        --mask_decoder=data/mobile_sam_mask_decoder.engine
-    ```
-
-    > This outputs a result to ``data/basic_usage_out.jpg``
-
-
-That's it!  From there, you can read the example code for examples on how
-to use NanoSAM with Python.  Or try running the more advanced examples below.
-
 ## Examples
 
 ### Example 1 - Basic usage
@@ -262,6 +188,81 @@ This tracking method is very simple and can get lost easily.  It is intended to
 demonstrate creative ways you can use NanoSAM, but would likely be improved with
 more work.
 </details>
+
+## Getting Started
+
+1. Install the dependencies
+
+    1. Install PyTorch
+
+    2. Install [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
+    3. Install NVIDIA TensorRT
+    4. (optional) Install [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) - For the pose example.
+        
+        ```bash
+        git clone https://github.com/NVIDIA-AI-IOT/trt_pose
+        cd trt_pose
+        python3 setup.py develop --user
+        ```
+
+    5. (optional) Install the Transformers library - For the OWL ViT example.
+
+        ```bash
+        python3 -m pip install transformers
+        ```
+
+2. Install the NanoSAM Python package
+    
+    ```bash
+    git clone https://github.com/NVIDIA-AI-IOT/nanosam
+    cd nanosam
+    python3 setup.py develop --user
+    ```
+
+3. Build the TensorRT engine for the mask decoder
+
+    1. Download the mask decoder: [mobile_sam_mask_decoder.onnx](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link) 
+
+    2. Build the TensorRT engine
+
+        ```bash
+        trtexec \
+            --onnx=data/mobile_sam_mask_decoder.onnx \
+            --saveEngine=data/mobile_sam_mask_decoder.engine \
+            --minShapes=point_coords:1x1x2,point_labels:1x1 \
+            --optShapes=point_coords:1x1x2,point_labels:1x1 \
+            --maxShapes=point_coords:1x10x2,point_labels:1x10
+        ```
+
+        > This assumes the mask decoder ONNX file is downloaded to ``data/mobile_sam_mask_decoder.onnx``
+
+4. Build the TensorRT engine for the NanoSAM image encoder
+
+    1. Download the image encoder: [resnet18_image_encoder.onnx](https://drive.google.com/file/d/14-SsvoaTl-esC3JOzomHDnI9OGgdO2OR/view?usp=drive_link)
+    
+    2. Build the TensorRT engine
+
+        ```bash
+        trtexec \
+            --onnx=data/resnet18_image_encoder.onnx \
+            --saveEngine=data/resnet18_image_encoder.engine \
+            --fp16
+        ```
+
+5. Run the basic usage example
+
+    ```
+    python3 examples/basic_usage.py \
+        --image_encoder=data/resnet18_image_encoder.engine \
+        --mask_decoder=data/mobile_sam_mask_decoder.engine
+    ```
+
+    > This outputs a result to ``data/basic_usage_out.jpg``
+
+
+That's it!  From there, you can read the example code for examples on how
+to use NanoSAM with Python.  Or try running the more advanced examples below.
+
 
 ## Training
 
