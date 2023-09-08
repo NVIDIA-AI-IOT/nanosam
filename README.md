@@ -9,7 +9,7 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 
 ## Usage
 
-Using NanoSAM from Python looks like this.
+Using NanoSAM from Python is easy. 
 
 ```python3
 from nanosam.utils.predictor import Predictor
