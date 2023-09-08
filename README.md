@@ -221,7 +221,14 @@ more work.
 
 3. Build the TensorRT engine for the mask decoder
 
-    1. Download the mask decoder: [mobile_sam_mask_decoder.onnx](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link) 
+    1. Export the MobileSAM mask decoder ONNX file (or download directly from [here](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link))
+    
+        ```bash
+        python3 -m nanosam.tools.export_sam_mask_decoder_onnx \
+            --model-type=vit_t \
+            --checkpoint=assets/mobile_sam.pt \
+            --output=data/mobile_sam_mask_decoder.onnx
+        ```
 
     2. Build the TensorRT engine
 
