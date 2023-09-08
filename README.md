@@ -101,6 +101,8 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ## :cartwheeling: Examples
 
+NanoSAM can be applied in many creative ways.
+
 ### Example 1 - Segment with bounding box
 
 <img src="assets/basic_usage_out.jpg" height="256"/>
