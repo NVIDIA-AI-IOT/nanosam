@@ -405,9 +405,9 @@ truth masks
     </details>
 
 
-## Acknowledgement
+## :clap: Acknowledgement
 
-This work is enabled by the great projects below.
+This project is enabled by the great projects below.
 
 - [SAM](https://github.com/facebookresearch/segment-anything) - The original Segment Anything model.
 - [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) - The distilled Tiny ViT Segment Anything model.
