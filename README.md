@@ -243,6 +243,12 @@ more work.
 
         > This assumes the mask decoder ONNX file is downloaded to ``data/mobile_sam_mask_decoder.onnx``
 
+        <details>
+        <summary>Notes</summary>
+        This command builds the engine to support up to 10 keypoints.  You can increase
+        this limit as needed by specifying a different max shape.
+        </details>
+
 4. Build the TensorRT engine for the NanoSAM image encoder
 
     1. Download the image encoder: [resnet18_image_encoder.onnx](https://drive.google.com/file/d/14-SsvoaTl-esC3JOzomHDnI9OGgdO2OR/view?usp=drive_link)
