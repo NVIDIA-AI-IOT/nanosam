@@ -99,7 +99,7 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ## Examples
 
-### Example 1 - Basic usage
+### Example 1 - Segment with bounding box (basic usage)
 
 <img src="assets/basic_usage_out.jpg" height="256"/>
 
