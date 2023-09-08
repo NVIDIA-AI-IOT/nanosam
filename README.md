@@ -40,7 +40,7 @@ The point labels may be
 
 > Follow the instructions below for how to build the engine files.
 
-## Performance
+## 	Performance
 
 NanoSAM runs real-time on Jetson Orin Nano.
 
@@ -48,9 +48,9 @@ NanoSAM runs real-time on Jetson Orin Nano.
     <thead>
         <tr>
             <th rowspan=2 style="text-align: center; border-right: solid 1px">Model †</th>
-            <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson Orin Nano (ms)</th>
-            <th colspan=2 style="text-align: center; border-right: solid 1px">Jetson AGX Orin (ms)</th>
-            <th colspan=4 style="text-align: center; border-right: solid 1px">Accuracy (mIoU) ‡</th>
+            <th colspan=2 style="text-align: center; border-right: solid 1px">:stopwatch: Jetson Orin Nano (ms)</th>
+            <th colspan=2 style="text-align: center; border-right: solid 1px">:stopwatch: Jetson AGX Orin (ms)</th>
+            <th colspan=4 style="text-align: center; border-right: solid 1px"> :dart: Accuracy (mIoU) ‡</th>
         </tr>
         <tr>
             <th style="text-align: center; border-right: solid 1px">Image Encoder</th>
