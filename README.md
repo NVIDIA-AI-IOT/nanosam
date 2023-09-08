@@ -4,34 +4,9 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 
 <img src="assets/tshirt_gif_compressed_v2.gif" height="196"/> <img src="assets/mouse_gif_compressed.gif" height="196"/>
 
-*Why NanoSAM?*
-
-SAM is a general segmentation model that is capable of turning point(s) (or boxes) into segmentation
-masks.  Unfortunately, the image encoder in SAM is large and does not run in real-time.
-[MobileSAM](https://github.com/ChaoningZhang/MobileSAM) improves the runtime of SAM
-by replacing the image encoder with a Tiny ViT architecture, but we find that after TensorRT optimization, this image encoder is still a bottleneck and MobileSAM achieves sub-realtime framerates on NVIDIA Jetson Orin Nano.  NanoSAM is trained by distilling the MobileSAM image encoder into an architecture that runs an order of magnitude faster on NVIDIA Jetson with little loss in accuracy. This enables real-time inference and unlocks new applications like turning pre-trained detectors into instance segmentors or performing segmentation based tracking.  
-
-> While our goal was to provide a real-time variant of SAM on NVIDIA Jetson platforms,
-> you may find this model helpful for other NVIDIA platforms as well!  In addition,
-> this project contains examples for optimizing SAM model variants with
-> TensorRT.  Even if you don't want to use the NanoSAM architecture, you
-> may find these utilities helpful.
-
-
-## Contents
-
-- [Usage](#usage)
-- [Performance](#performance)
-- [Quick Start](#quick-start)
-- [Training](#training)
-- [Evaluation](#evaluation)
-- [Acknowledgement](#acknowledgement)
-
 ## Usage
 
-NanoSAM provides a simple Python interface for inference.  With this interface,
-you provide a set of points and point labels, and use these points to predict 
-the object mask.
+Using NanoSAM from Python looks like this.
 
 ```python3
 from nanosam.utils.predictor import Predictor
@@ -48,6 +23,8 @@ predictor.set_image(image)
 mask, _, _ = predictor.predict(np.array([[x, y]]), np.array([1]))
 ```
 
+<details>
+<summary>Notes</summary>
 The point labels may be
 
 | Point Label | Description |
@@ -56,19 +33,13 @@ The point labels may be
 | 1 | Foreground point |
 | 2 | Bounding box top-left |
 | 3 | Bounding box bottom-right |
+</details>
 
-The engine files are constructed by downloading the corresponding ONNX files,
-and building the engines with TensorRT.  You can also train a new NanoSAM image
-encoder by following the [training instructions](#training). 
-
-For more details on how to use NanoSAM, check the [quick start](#quick-start) and [examples](#examples).
+> Follow the instructions below for how to build the engine files.
 
 ## Performance
 
-NanoSAM is capable of running in real-time on NVIDIA Jetson Orin Nano with TensorRT.
-Below is a table that compares the performance and accuracy of different image
-encoders, including the original MobileSAM (which we have also optimized with
-TensorRT).
+NanoSAM runs real-time on Jetson Orin Nano.
 
 <table style="border-top: solid 1px; border-left: solid 1px; border-right: solid 1px; border-bottom: solid 1px">
     <thead>
@@ -115,306 +86,304 @@ TensorRT).
     </tbody>
 </table>
 
-*Notes*
+<details>
+<summary>Notes</summary>
 
 † The MobileSAM image encoder is optimized with FP32 precision because it produced erroneous results when built for FP16 precision with TensorRT.  The NanoSAM image encoder
 is built with FP16 precision as we did not notice a significant accuracy degredation.  Both pipelines use the same mask decoder which is built with FP32 precision.  For all models, the accuracy reported uses the same model configuration used to measure latency.
 
 ‡ Accuracy is computed by prompting SAM with ground-truth object bounding box annotations from the COCO 2017 validation dataset.  The IoU is then computed between the mask output of the SAM model for the object and the ground-truth COCO segmentation mask for the object.  The mIoU is the average IoU over all objects in the COCO 2017 validation set matching the target object size (small, medium, large).  
 
-## Quick Start
+</details>
 
-### Step 1 - Setup system
+## Getting Started
 
-Install the following dependencies:
+1. Install the dependencies
 
-1. PyTorch
-2. [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
-3. NVIDIA TensorRT
-4. (optional) [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) - For the pose example.
-5. (optional) transformers - For the OWL ViT example.
+    1. Install PyTorch
 
-### Step 2 - Install NanoSAM
+    2. Install [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt)
+    3. Install NVIDIA TensorRT
+    4. (optional) Install [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) - For the pose example.
+        
+        ```bash
+        git clone https://github.com/NVIDIA-AI-IOT/trt_pose
+        cd trt_pose
+        python3 setup.py develop --user
+        ```
 
-Install NanoSAM with the following command.
+    5. (optional) Install the Transformers library - For the OWL ViT example.
 
-```bash
-git clone https://github.com/NVIDIA-AI-IOT/nanosam
-cd nanosam
-python3 setup.py develop --user
-```
+        ```bash
+        python3 -m pip install transformers
+        ```
 
-### Step 3 - Build the mask decoder
+2. Install the NanoSAM Python package
+    
+    ```bash
+    git clone https://github.com/NVIDIA-AI-IOT/nanosam
+    cd nanosam
+    python3 setup.py develop --user
+    ```
 
-The same mask decoder is used for all model variants.
+3. Build the TensorRT engine for the mask decoder
 
-| Name | Download |
-|------|----------|
-| Mask Decoder | [ONNX](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link) |
+    1. Download the mask decoder: [mobile_sam_mask_decoder.onnx](https://drive.google.com/file/d/1jYNvnseTL49SNRx9PDcbkZ9DwsY8up7n/view?usp=drive_link) 
 
-First, download the mask decoder ONNX file to ``data/mobile_sam_mask_decoder.onnx``.
+    2. Build the TensorRT engine
 
-Next, build the mask decoder with NVIDIA TensorRT.
+        ```bash
+        trtexec \
+            --onnx=data/mobile_sam_mask_decoder.onnx \
+            --saveEngine=data/mobile_sam_mask_decoder.engine \
+            --minShapes=point_coords:1x1x2,point_labels:1x1 \
+            --optShapes=point_coords:1x1x2,point_labels:1x1 \
+            --maxShapes=point_coords:1x10x2,point_labels:1x10
+        ```
 
-```bash
-trtexec \
-    --onnx=data/mobile_sam_mask_decoder.onnx \
-    --saveEngine=data/mobile_sam_mask_decoder.engine \
-    --minShapes=point_coords:1x1x2,point_labels:1x1 \
-    --optShapes=point_coords:1x1x2,point_labels:1x1 \
-    --maxShapes=point_coords:1x10x2,point_labels:1x10
-```
+        > This assumes the mask decoder ONNX file is downloaded to ``data/mobile_sam_mask_decoder.onnx``
 
-> Note:  The above command will support up to 10 point labels, and is optimized
-> for 1 point label.  You could increase this limit as needed.
+4. Build the TensorRT engine for the NanoSAM image encoder
 
-### Step 4 - Build the image encoder
+    1. Download the image encoder: [resnet18_image_encoder.onnx](https://drive.google.com/file/d/14-SsvoaTl-esC3JOzomHDnI9OGgdO2OR/view?usp=drive_link)
+    
+    2. Build the TensorRT engine
 
-First, download the ONNX file for the image encoder.  We provide both the
-NanoSAM image encoder, as well as the original MobileSAM image encoder for
-convenience.
+        ```bash
+        trtexec \
+            --onnx=data/resnet18_image_encoder.onnx \
+            --saveEngine=data/resnet18_image_encoder.engine \
+            --fp16
+        ```
 
-| Name | Download | Recommended Precision |
-|------|----------|---|
-| NanoSAM (Resnet18) | [ONNX](https://drive.google.com/file/d/14-SsvoaTl-esC3JOzomHDnI9OGgdO2OR/view?usp=drive_link)  | FP16 |
-| MobileSAM (TinyViT) | [ONNX](https://drive.google.com/file/d/18c6adYGUD8Gwl3_tBipSDHSRcOA2U0zJ/view?usp=drive_link) | FP32 |
+5. Run the basic usage example
 
-Next, build the image encoder with NVIDIA TensorRT.  For example, to build
-the Nanosam (resnet18) image encoder with FP16 precision, you can call.
+    ```
+    python3 examples/basic_usage.py \
+        --image_encoder=data/resnet18_image_encoder.engine \
+        --mask_decoder=data/mobile_sam_mask_decoder.engine
+    ```
 
-```bash
-trtexec \
-    --onnx=data/resnet18_image_encoder.onnx \
-    --saveEngine=data/resnet18_image_encoder.engine \
-    --fp16
-```
+    > This outputs a result to ``data/basic_usage_out.jpg``
 
-### Step 5 - Run the basic usage example
-
-To test everything is working properly, run the basic usage example.
-
-```
-python3 examples/basic_usage.py \
-    --image_encoder=data/resnet18_image_encoder.engine \
-    --mask_decoder=data/mobile_sam_mask_decoder.engine
-```
-
-You should see an image created ``data/basic_usage_out.jpg`` that shows the
-segmentation result.
 
 That's it!  From there, you can read the example code for examples on how
 to use NanoSAM with Python.  Or try running the more advanced examples below.
 
 ## Examples
 
-### Segment from detections
+### Example 1 - Basic usage
 
-Like other SAM variants, NanoSAM can be used to segment objects given a bounding
-box.  We demonstrate this using OWL-ViT for detection.  OWL-ViT is a model
-that is capable of open-vocabulary detection.  This allows you to detect objects
-given a text prompt.  
+<img src="assets/basic_usage_out.jpg" height="384"/>
 
-For example, below we run NanoSAM on OWL-ViT detections created with the prompt: "A tree" 
+This example uses a known image with a fixed bounding box to control NanoSAM
+segmentation.  
 
-<img src="assets/owl_out.png"/>
+To run the example, call
 
+```python3
+python3 examples/basic_usage.py \
+    --image_encoder="data/resnet18_image_encoder.engine" \
+    --mask_decoder="data/mobile_sam_mask_decoder.engine"
+```
 
-While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
+### Example 2 - Segment with OWL-ViT
+
+<img src="assets/owl_out.png"  height="384"/>
+
+This example demonstrates using OWL-ViT to detect objects using a text prompt(s),
+and then segmenting these objects using NanoSAM.
+
+To run the example, call
+
+```bash
+python3 examples/segment_from_owl.py \
+    --prompt="A tree" \
+    --image_encoder="data/resnet18_image_encoder.engine" \
+    --mask_decoder="data/mobile_sam_mask_decoder.engine
+```
+
+<details>
+<summary>Notes</summary>
+- While OWL-ViT does not run real-time on Jetson Orin Nano (3sec/img), it is nice for experimentation
 as it allows you to detect a wide variety of objects.  You could substitute any
 other real-time pre-trained object detector to take full advantage of NanoSAM's 
 speed.
+</details>
 
-### Segment from pose
+### Example 3 - Segment with TRTPose (offline)
 
-NanoSAM can also be used to segment objects based on foreground and background
-points.  Using NanoSAM in conjunction with a real-time human pose estimator,
-we're able to easily segment clothing and body parts.  Here we show NanoSAM
-predicting segmentation masks for a person detected using [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose).
-By selecting appropriate keypoints as foreground or background, we can control
-which parts we want to segment.
+<img src="assets/pose_out.png"  height="384"/>
 
-<img src="assets/pose_out.png"/>
+This example demonstrates how to use human pose keypoints from [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) to control NanoSAM segmentation.
+
+To run the example, call
+
+```bash
+python3 examples/segment_from_pose.py
+```
+
+This will save an output figure to ``data/segment_from_pose_out.png``.
 
 We provide a live camera demo to segment your T-Shirt using pose.
 
-<img src="assets/tshirt_gif_compressed_v2.gif"/>
+### Example 4 - Segment with TRTPose (online)
+
+<img src="assets/tshirt_gif_compressed_v2.gif" height="384"/>
+
+This example demonstrates how to use human pose to control segmentation on
+a live camera feed.  This example requires an attached display and camera.
+
+To run the example, call
 
 ```python3
 python3 examples/demo_pose_tshirt.py
 ```
 
-### Segment and track (experimental)
+### Example 5 - Segment and track (experimental)
 
-We also include an experimental example demonstrating tracking a segmentation
-mask with NanoSAM.  
+<img src="assets/mouse_gif_compressed.gif" height="384"/>
 
-<img src="assets/mouse_gif_compressed.gif"/>
+This example demonstrates a rudimentary segmentation tracking with NanoSAM.
+This example requires an attached display and camera.
 
-To run this example, you need an attached display.  Then call,
+To run the example, call
 
 ```python3
 python3 examples/demo_click_segment_track.py <image_encoder_engine> <mask_decoder_engine>
 ```
 
-This is a very simple tracker that is primarily for illustrative purposes.  It works
-by roughly doing the following:
+Once the example is running **double click** an object you want to track.
 
-1. Computing an initial mask given a clicked point
-2. Fitting a simple linear model to predict the mask output from SAM given the SAM image features.
-3. Using the linear model to predict the next frame's mask
-4. Refining the predicted mask using the centroid of the mask as input to NanoSAM
-5. Updating the linear model based on the refined mask.
-
-This demonstrates the creative ways you can apply NanoSAM for real-time mask processing.
+<details>
+<summary>Notes</summary>
+This tracking method is very simple and can get lost easily.  It is intended to
+demonstrate creative ways you can use NanoSAM, but would likely be improved with
+more work.
+</details>
 
 ## Training
 
-First download the COCO 2017 training images.
+You can train NanoSAM on a single GPU
 
-> Note: NanoSAM only needs a folder of images.  We choose COCO because it is easy to
-> download and coverse diverse real-world scenarios.  You could use your own
-> images instead.
+1. Download and extract the COCO 2017 train images
 
-```bash
-mkdir -p data/coco
-cd data/coco
-wget http://images.cocodataset.org/zips/train2017.zip
-```
+    ```bash
+    # mkdir -p data/coco  # uncomment if it doesn't exist
+    mkdir -p data/coco
+    cd data/coco
+    wget http://images.cocodataset.org/zips/train2017.zip
+    unzip train2017.zip
+    cd ../..
+    ```
 
-Next, extract the images
+2. Build the MobileSAM image encoder (used as teacher model)
 
-```bash
-unzip train2017.zip
-cd ../..
-```
+    1. Export to ONNX
 
-Export the MobileSAM image encoder with batch size 16 to ONNX (To be used as teacher model).
+        ```bash
+        python3 -m nanosam.tools.export_sam_image_encoder_onnx \
+            --checkpoint="assets/mobile_sam.pt" \
+            --output="data/mobile_sam_image_encoder_bs16.onnx" \
+            --model_type=vit_t \
+            --batch_size=16
+        ```
 
-```bash
-python3 -m nanosam.tools.export_sam_image_encoder_onnx \
-    --checkpoint="assets/mobile_sam.pt" \
-    --output="data/mobile_sam_image_encoder_bs16.onnx" \
-    --model_type=vit_t \
-    --batch_size=16
-```
+    2. Build the TensorRT engine with batch size 16
 
-Next, build the image encoder TensorRT engine using trtexec
+        ```bash
+        trtexec \
+            --onnx=data/mobile_sam_image_encoder_bs16.onnx \
+            --shapes=image:16x3x1024x1024 \
+            --saveEngine=data/mobile_sam_image_encoder_bs16.engine
+        ```
 
-```bash
-trtexec \
-    --onnx=data/mobile_sam_image_encoder_bs16.onnx \
-    --shapes=image:16x3x1024x1024 \
-    --saveEngine=data/mobile_sam_image_encoder_bs16.engine
-```
+3. Train the NanoSAM image encoder by distilling MobileSAM
 
-Finally, train the NanoSAM model by distilling MobileSAM.
+    ```bash
+    python3 -m nanosam.tools.train \
+        --images=data/coco/train2017 \
+        --output_dir=data/models/resnet18 \
+        --model_name=resnet18 \
+        --teacher_image_encoder_engine=data/mobile_sam_image_encoder_bs16.engine \
+        --batch_size=16
+    ```
 
-```bash
-python3 -m nanosam.tools.train \
-    --images=data/coco/train2017 \
-    --output_dir=data/models/resnet18 \
-    --model_name=resnet18 \
-    --teacher_image_encoder_engine=data/mobile_sam_image_encoder_bs16.engine \
-    --batch_size=16
-```
+    <details>
+    <summary>Notes</summary>
+    Once training, visualizations of progress and checkpoints will be saved to
+    the specified output directory.  You can stop training and resume from the last
+    saved checkpoint if needed.
 
-Once training, visualizations of progress and checkpoints will be saved to
-the specified output directory.  You can stop training and resume from the last
-saved checkpoint if needed.
+    For a list of arguments, you can type 
 
-For a list of arguments, you can type 
+    ```bash
+    python3 -m nanosam.tools.train --help
+    ```
+    </details>
 
-```bash
-python3 -m nanosam.tools.train --help
-```
+4. Export the trained NanoSAM image encoder to ONNX
+
+    ```bash
+    python3 -m nanosam.tools.export_image_encoder_onnx \
+        --model_name=resnet18 \
+        --checkpoint="data/models/resnet18/checkpoint.pth" \
+        --output="data/resnet18_image_encoder.onnx"
+    ```
+
+You can then build the TensorRT engine as detailed in the getting started section.
 
 ## Evaluation
 
-Export the image encoder model to ONNX.
+You can reproduce the accuracy results above by evaluating against COCO ground
+truth masks
 
-```bash
-python3 -m nanosam.tools.export_image_encoder_onnx \
-    --model_name=resnet18 \
-    --checkpoint="data/models/resnet18/checkpoint.pth" \
-    --output="data/resnet18_image_encoder.onnx"
-```
 
-Build the image encoder TensorRT engine.
+1. Download and extract the COCO 2017 validation set.
 
-```bash
-trtexec \
-    --onnx=data/resnet18_image_encoder.onnx \
-    --saveEngine=data/resnet18_image_encoder.engine \
-    --fp16
-```
+    ```bash
+    # mkdir -p data/coco  # uncomment if it doesn't exist
+    cd data/coco
+    wget http://images.cocodataset.org/zips/val2017.zip
+    wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+    unzip val2017.zip
+    unzip annotations_trainval2017.zip
+    cd ../..
+    ```
 
-Export the mask decoder to ONNX
+2. Compute the IoU of NanoSAM mask predictions against the ground truth COCO mask annotation.
 
-```bash
-python -m nanosam.tools.export_sam_mask_decoder_onnx \
-    --checkpoint assets/mobile_sam.pt \
-    --model-type vit_t \
-    --output ./data/mobile_sam_mask_decoder.onnx
-```
+    ```bash
+    python3 -m nanosam.tools.eval_coco \
+        --coco_root=data/coco/val2017 \
+        --coco_ann=data/coco/annotations/instances_val2017.json \
+        --image_encoder=data/resnet18_image_encoder.engine \
+        --mask_decoder=data/mobile_sam_mask_decoder.engine \
+        --output=data/resnet18_coco_results.json
+    ```
 
-Build the mask decoder TensorRT engine.
+    > This uses the COCO ground-truth bounding boxes as inputs to NanoSAM
 
-```bash
-trtexec \
-    --onnx=data/mobile_sam_mask_decoder.onnx \
-    --saveEngine=data/mobile_sam_mask_decoder.engine \
-    --minShapes=point_coords:1x1x2,point_labels:1x1 \
-    --optShapes=point_coords:1x1x2,point_labels:1x1 \
-    --maxShapes=point_coords:1x10x2,point_labels:1x10
-```
+3. Compute the average IoU over a selected category or size
 
-Download the COCO 2017 validation set.
+    ```bash
+    python3 -m nanosam.tools.compute_eval_coco_metrics \
+        data/efficientvit_b0_coco_results.json \
+        --size="all"
+    ```
 
-```bash
-mkdir -p data/coco
-cd data/coco
-wget http://images.cocodataset.org/zips/val2017.zip
-wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
-```
+    <details>
+    <summary>Notes</summary>
+    For all options type ``python3 -m nanosam.tools.compute_eval_coco_metrics --help``.
 
-Extract the images and annotations
+    To compute the mIoU for a specific category id.
 
-```bash
-unzip val2017.zip
-unzip annotations_trainval2017.zip
-cd ../..
-```
-
-Compute the IoU of the mask prediction given the ground truth COCO box,
-against the ground truth COCO mask annotation.
-
-```bash
-python3 -m nanosam.tools.eval_coco \
-    --coco_root=data/coco/val2017 \
-    --coco_ann=data/coco/annotations/instances_val2017.json \
-    --image_encoder=data/resnet18_image_encoder.engine \
-    --mask_decoder=data/mobile_sam_mask_decoder.engine \
-    --output=data/resnet18_coco_results.json
-```
-
-Compute the average IoU statistics for given filters, like filtering
-by object size or category.
-
-```bash
-python3 -m nanosam.tools.compute_eval_coco_metrics \
-    data/efficientvit_b0_coco_results.json \
-    --size="all"
-```
-
-> For all options type ``python3 -m nanosam.tools.compute_eval_coco_metrics --help``.
-
-To compute the mIoU for a specific category id.
-
-```bash
-python3 -m nanosam.tools.compute_eval_coco_metrics \
-    data/resnet18_coco_results.json \
-    --category_id=1
-```
+    ```bash
+    python3 -m nanosam.tools.compute_eval_coco_metrics \
+        data/resnet18_coco_results.json \
+        --category_id=1
+    ```
+    </details>
 
 
 ## Acknowledgement

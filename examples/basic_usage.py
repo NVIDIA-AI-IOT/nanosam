@@ -16,38 +16,46 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import PIL.Image
+import argparse
 from nanosam.utils.predictor import Predictor
 
 
-# Instantiate TensorRT predictor
-predictor = Predictor(
-    "data/resnet18_image_encoder.engine",
-    "data/mobile_sam_mask_decoder.engine"
-)
+if __name__ == "__main__":
 
-# Read image and run image encoder
-image = PIL.Image.open("assets/dogs.jpg")
-predictor.set_image(image)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--image_encoder", type=str, default="data/resnet18_image_encoder.engine")
+    parser.add_argument("--mask_decoder", type=str, default="data/mobile_sam_mask_decoder.engine")
+    args = parser.parse_args()
+        
+    # Instantiate TensorRT predictor
+    predictor = Predictor(
+        args.image_encoder,
+        args.mask_decoder
+    )
 
-# Segment using bounding box
-bbox = [100, 100, 850, 759]  # x0, y0, x1, y1
+    # Read image and run image encoder
+    image = PIL.Image.open("assets/dogs.jpg")
+    predictor.set_image(image)
 
-points = np.array([
-    [bbox[0], bbox[1]],
-    [bbox[2], bbox[3]]
-])
+    # Segment using bounding box
+    bbox = [100, 100, 850, 759]  # x0, y0, x1, y1
 
-point_labels = np.array([2, 3])
+    points = np.array([
+        [bbox[0], bbox[1]],
+        [bbox[2], bbox[3]]
+    ])
 
-mask, _, _ = predictor.predict(points, point_labels)
+    point_labels = np.array([2, 3])
 
-mask = (mask[0, 0] > 0).detach().cpu().numpy()
+    mask, _, _ = predictor.predict(points, point_labels)
 
-# Draw resykts
-plt.imshow(image)
-plt.imshow(mask, alpha=0.5)
-x = [bbox[0], bbox[2], bbox[2], bbox[0], bbox[0]]
-y = [bbox[1], bbox[1], bbox[3], bbox[3], bbox[1]]
-plt.plot(x, y, 'g-')
-plt.savefig("data/basic_usage_out.jpg")
+    mask = (mask[0, 0] > 0).detach().cpu().numpy()
+
+    # Draw resykts
+    plt.imshow(image)
+    plt.imshow(mask, alpha=0.5)
+    x = [bbox[0], bbox[2], bbox[2], bbox[0], bbox[0]]
+    y = [bbox[1], bbox[1], bbox[3], bbox[3], bbox[1]]
+    plt.plot(x, y, 'g-')
+    plt.savefig("data/basic_usage_out.jpg")
 
