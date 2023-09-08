@@ -193,6 +193,8 @@ more work.
 
 ## :hammer_and_wrench: Getting Started
 
+NanoSAM is fairly easy to get started with.
+
 1. Install the dependencies
 
     1. Install PyTorch
