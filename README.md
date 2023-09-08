@@ -4,6 +4,8 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 
 <img src="assets/tshirt_gif_compressed_v2.gif" height="20%" width="20%"/> <img src="assets/basic_usage_out.jpg" height="152px"/>  <img src="assets/mouse_gif_compressed.gif"  height="20%" width="20%"/>
 
+> NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
+> on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
 
 ## Usage
 
