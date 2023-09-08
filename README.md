@@ -7,7 +7,7 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 > NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
 > on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
 
-## Usage
+## :thumbsup: Usage
 
 Using NanoSAM from Python looks like this.
 
@@ -40,7 +40,7 @@ The point labels may be
 
 > Follow the instructions below for how to build the engine files.
 
-## 	Performance
+## 🏆	Performance
 
 NanoSAM runs real-time on Jetson Orin Nano.
 
@@ -99,7 +99,7 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 </details>
 
-## Examples
+## :cartwheeling: Examples
 
 ### Example 1 - Segment with bounding box
 
@@ -189,7 +189,7 @@ demonstrate creative ways you can use NanoSAM, but would likely be improved with
 more work.
 </details>
 
-## Getting Started
+## :hammer_and_wrench: Getting Started
 
 1. Install the dependencies
 
@@ -277,7 +277,7 @@ That's it!  From there, you can read the example code for examples on how
 to use NanoSAM with Python.  Or try running the more advanced examples below.
 
 
-## Training
+## 🥼 Training
 
 You can train NanoSAM on a single GPU
 
@@ -348,7 +348,7 @@ You can train NanoSAM on a single GPU
 
 You can then build the TensorRT engine as detailed in the getting started section.
 
-## Evaluation
+## 	🧐 Evaluation
 
 You can reproduce the accuracy results above by evaluating against COCO ground
 truth masks
