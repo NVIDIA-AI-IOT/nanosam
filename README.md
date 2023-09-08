@@ -281,7 +281,7 @@ That's it!  From there, you can read the example code for examples on how
 to use NanoSAM with Python.  Or try running the more advanced examples below.
 
 
-## 🥼 Training
+## 🧪 Training
 
 You can train NanoSAM on a single GPU
 
