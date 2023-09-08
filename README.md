@@ -154,7 +154,7 @@ This will save an output figure to ``data/segment_from_pose_out.png``.
 
 ### Example 4 - Segment with keypoints (online using TRTPose detections)
 
-<img src="assets/tshirt_gif_compressed_v2.gif"  height="25%" width="25%"/>
+<img src="assets/tshirt_gif_compressed_v2.gif"  height="40%" width="40%"/>
 
 This example demonstrates how to use human pose to control segmentation on
 a live camera feed.  This example requires an attached display and camera.
@@ -167,7 +167,7 @@ python3 examples/demo_pose_tshirt.py
 
 ### Example 5 - Segment and track (experimental)
 
-<img src="assets/mouse_gif_compressed.gif"  height="25%" width="25%"/>
+<img src="assets/mouse_gif_compressed.gif"  height="40%" width="40%"/>
 
 This example demonstrates a rudimentary segmentation tracking with NanoSAM.
 This example requires an attached display and camera.
