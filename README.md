@@ -175,7 +175,7 @@ to use NanoSAM with Python.  Or try running the more advanced examples below.
 
 ### Example 1 - Basic usage
 
-<img src="assets/basic_usage_out.jpg" height="384"/>
+<img src="assets/basic_usage_out.jpg" height="256"/>
 
 This example uses a known image with a fixed bounding box to control NanoSAM
 segmentation.  
@@ -190,7 +190,7 @@ python3 examples/basic_usage.py \
 
 ### Example 2 - Segment with OWL-ViT
 
-<img src="assets/owl_out.png"  height="384"/>
+<img src="assets/owl_out.png"  height="256"/>
 
 This example demonstrates using OWL-ViT to detect objects using a text prompt(s),
 and then segmenting these objects using NanoSAM.
@@ -214,7 +214,7 @@ speed.
 
 ### Example 3 - Segment with TRTPose (offline)
 
-<img src="assets/pose_out.png"  height="384"/>
+<img src="assets/pose_out.png"  height="256"/>
 
 This example demonstrates how to use human pose keypoints from [TRTPose](https://github.com/NVIDIA-AI-IOT/trt_pose) to control NanoSAM segmentation.
 
@@ -230,7 +230,7 @@ We provide a live camera demo to segment your T-Shirt using pose.
 
 ### Example 4 - Segment with TRTPose (online)
 
-<img src="assets/tshirt_gif_compressed_v2.gif" height="384"/>
+<img src="assets/tshirt_gif_compressed_v2.gif" height="256"/>
 
 This example demonstrates how to use human pose to control segmentation on
 a live camera feed.  This example requires an attached display and camera.
@@ -243,7 +243,7 @@ python3 examples/demo_pose_tshirt.py
 
 ### Example 5 - Segment and track (experimental)
 
-<img src="assets/mouse_gif_compressed.gif" height="384"/>
+<img src="assets/mouse_gif_compressed.gif" height="256"/>
 
 This example demonstrates a rudimentary segmentation tracking with NanoSAM.
 This example requires an attached display and camera.
