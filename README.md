@@ -152,8 +152,6 @@ python3 examples/segment_from_pose.py
 
 This will save an output figure to ``data/segment_from_pose_out.png``.
 
-We provide a live camera demo to segment your T-Shirt using pose.
-
 ### Example 4 - Segment with keypoints (online using TRTPose detections)
 
 <img src="assets/tshirt_gif_compressed_v2.gif" height="256"/>
