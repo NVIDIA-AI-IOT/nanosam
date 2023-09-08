@@ -114,7 +114,7 @@ python3 examples/basic_usage.py \
     --mask_decoder="data/mobile_sam_mask_decoder.engine"
 ```
 
-### Example 2 - Segment with OWL-ViT
+### Example 2 - Segment with bounding box (using OWL-ViT)
 
 <img src="assets/owl_out.png"  height="256"/>
 
@@ -138,7 +138,7 @@ other real-time pre-trained object detector to take full advantage of NanoSAM's
 speed.
 </details>
 
-### Example 3 - Segment with TRTPose (offline)
+### Example 3 - Segment with keypoints (offline using TRTPose)
 
 <img src="assets/pose_out.png"  height="256"/>
 
@@ -154,7 +154,7 @@ This will save an output figure to ``data/segment_from_pose_out.png``.
 
 We provide a live camera demo to segment your T-Shirt using pose.
 
-### Example 4 - Segment with TRTPose (online)
+### Example 4 - Segment with keypoints (online using TRTPose)
 
 <img src="assets/tshirt_gif_compressed_v2.gif" height="256"/>
 
