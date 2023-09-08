@@ -99,7 +99,7 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 ## Examples
 
-### Example 1 - Segment with bounding box (basic usage)
+### Example 1 - Segment with bounding box
 
 <img src="assets/basic_usage_out.jpg" height="256"/>
 
@@ -114,7 +114,7 @@ python3 examples/basic_usage.py \
     --mask_decoder="data/mobile_sam_mask_decoder.engine"
 ```
 
-### Example 2 - Segment with bounding box (using OWL-ViT)
+### Example 2 - Segment with bounding box (using OWL-ViT detections)
 
 <img src="assets/owl_out.png"  height="256"/>
 
@@ -138,7 +138,7 @@ other real-time pre-trained object detector to take full advantage of NanoSAM's
 speed.
 </details>
 
-### Example 3 - Segment with keypoints (offline using TRTPose)
+### Example 3 - Segment with keypoints (offline using TRTPose detections)
 
 <img src="assets/pose_out.png"  height="256"/>
 
@@ -154,7 +154,7 @@ This will save an output figure to ``data/segment_from_pose_out.png``.
 
 We provide a live camera demo to segment your T-Shirt using pose.
 
-### Example 4 - Segment with keypoints (online using TRTPose)
+### Example 4 - Segment with keypoints (online using TRTPose detections)
 
 <img src="assets/tshirt_gif_compressed_v2.gif" height="256"/>
 
