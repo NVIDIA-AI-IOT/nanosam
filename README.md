@@ -7,7 +7,7 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 > NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
 > on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
 
-<p align="center"><a href="#-usage"/>👍 Usage</a> - <a href="#-performance"/>🏆 Performance</a> - <a href="#-setup">🛠️ Setup</a> - <a href="#-examples">🤸 Examples</a> - <a href="#-training">🏋️ Training</a> - <a href="#-evaluation">🧐 Evaluation</a></p>
+<p align="center"><a href="#-usage"/>👍 Usage</a> - <a href="#-performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#-examples">🤸 Examples</a> - <a href="#-training">🏋️ Training</a> - <a href="#-evaluation">🧐 Evaluation</a></p>
 
 ## 👍 Usage
 
@@ -101,6 +101,7 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 </details>
 
+<a id="setup"></a>
 ## 🛠️ Setup
 
 NanoSAM is fairly easy to get started with.
