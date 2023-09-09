@@ -2,13 +2,14 @@
 
 <p align="center"><a href="#usage"/>👍 Usage</a> - <a href="#performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#examples">🤸 Examples</a> - <a href="#training">🏋️ Training</a> <br>- <a href="#evaluation">🧐 Evaluation</a> - <a href="#acknowledgement">👏 Acknowledgment</a> - <a href="#see-also">🔗 See also</a></p>
 
-NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on [NVIDIA Jetson Orin Platforms](https://store.nvidia.com/en-us/jetson/store) with [NVIDIA TensorRT](https://developer.nvidia.com/tensorrt).  
+NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in 🔥 ***real-time*** 🔥 on [NVIDIA Jetson Orin Platforms](https://store.nvidia.com/en-us/jetson/store) with [NVIDIA TensorRT](https://developer.nvidia.com/tensorrt).  
 
-<img src="assets/tshirt_gif_compressed_v2.gif" height="20%" width="20%"/> <img src="assets/basic_usage_out.jpg" height="152px"/>  <img src="assets/mouse_gif_compressed.gif"  height="20%" width="20%"/>
+<!-- <img src="assets/tshirt_gif_compressed_v2.gif" height="20%" width="20%"/>   -->
+<p align="center"><img src="assets/basic_usage_out.jpg" height="256px"/></p>
+<!--<img src="assets/mouse_gif_compressed.gif"  height="50%" width="50%"/> -->
 
 > NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
 > on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
-
 
 <a id="usage"></a>
 ## 👍 Usage
