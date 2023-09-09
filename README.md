@@ -1,4 +1,8 @@
-<h1>NanoSAM</h1>
+<h1 align="center"><span>NanoSAM</span></h1>
+
+<p align="center"><a href="#usage"/>👍 Usage</a> - <a href="#performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#examples">🤸 Examples</a> - <a href="#training">🏋️ Training</a> <br>- <a href="#evaluation">🧐 Evaluation</a> - <a href="#acknowledgement">👏 Acknowledgment</a> - <a href="#see-also">🔗 See also</a></p>
+
+<br>
 
 NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on [NVIDIA Jetson Orin Platforms](https://store.nvidia.com/en-us/jetson/store) with [NVIDIA TensorRT](https://developer.nvidia.com/tensorrt).  
 
@@ -7,7 +11,6 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 > NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
 > on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
 
-<p align="center"><a href="#usage"/>👍 Usage</a> - <a href="#performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#examples">🤸 Examples</a> - <a href="#training">🏋️ Training</a> - <a href="#evaluation">🧐 Evaluation</a> - <a href="#acknowledgement">👏 Acknowledgment</a> - <a href="#see-also">🔗 See also</a></p>
 
 <a id="usage"></a>
 ## 👍 Usage
