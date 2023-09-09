@@ -1,4 +1,4 @@
-# NanoSAM
+<h1>NanoSAM</h1>
 
 NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in real-time on [NVIDIA Jetson Orin Platforms](https://store.nvidia.com/en-us/jetson/store) with [NVIDIA TensorRT](https://developer.nvidia.com/tensorrt).  
 
@@ -6,6 +6,8 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 
 > NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
 > on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
+
+<p align="center"><a href="#-usage"/>👍 Usage</a> - <a href="#-performance"/>🏆 Performance</a> - <a href="#-setup">🛠️ Setup</a> - <a href="#-examples">🤸 Examples</a> - <a href="#-training">🏋️ Training</a> - <a href="#-evaluation">🧐 Evaluation</a></p>
 
 ## 👍 Usage
 
@@ -40,7 +42,7 @@ The point labels may be
 
 > Follow the instructions below for how to build the engine files.
 
-## 🏆	Performance
+## 🏆 Performance
 
 NanoSAM runs real-time on Jetson Orin Nano.
 
@@ -99,7 +101,7 @@ is built with FP16 precision as we did not notice a significant accuracy degreda
 
 </details>
 
-## 🏃 Setup
+## 🛠️ Setup
 
 NanoSAM is fairly easy to get started with.
 
@@ -188,7 +190,7 @@ NanoSAM is fairly easy to get started with.
 That's it!  From there, you can read the example code for examples on how
 to use NanoSAM with Python.  Or try running the more advanced examples below.
 
-## :cartwheeling: Examples
+## 🤸 Examples
 
 NanoSAM can be applied in many creative ways.
 
@@ -280,7 +282,6 @@ demonstrate creative ways you can use NanoSAM, but would likely be improved with
 more work.
 </details>
 
-
 ## 🏋️ Training
 
 You can train NanoSAM on a single GPU
@@ -352,7 +353,7 @@ You can train NanoSAM on a single GPU
 
 You can then build the TensorRT engine as detailed in the getting started section.
 
-## 	🧐 Evaluation
+## 🧐 Evaluation
 
 You can reproduce the accuracy results above by evaluating against COCO ground
 truth masks
