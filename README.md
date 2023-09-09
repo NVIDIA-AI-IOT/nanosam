@@ -191,7 +191,7 @@ demonstrate creative ways you can use NanoSAM, but would likely be improved with
 more work.
 </details>
 
-## :hammer_and_wrench: Getting Started
+## :hammer_and_wrench: Setup
 
 NanoSAM is fairly easy to get started with.
 
