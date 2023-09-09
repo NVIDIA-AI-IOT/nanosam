@@ -7,8 +7,9 @@ NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segmen
 > NanoSAM is trained by distilling the [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) image encoder
 > on unlabeled images.  For an introduction to knowledge distillation, we recommend checking out [this tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation).
 
-<p align="center"><a href="#-usage"/>👍 Usage</a> - <a href="#-performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#-examples">🤸 Examples</a> - <a href="#-training">🏋️ Training</a> - <a href="#-evaluation">🧐 Evaluation</a></p>
+<p align="center"><a href="#usage"/>👍 Usage</a> - <a href="#performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#examples">🤸 Examples</a> - <a href="#training">🏋️ Training</a> - <a href="#evaluation">🧐 Evaluation</a> - <a href="#acknowledgement">👏 Acknowledgment</a> - <a href="#see-also">🔗 See also</a></p>
 
+<a id="usage"></a>
 ## 👍 Usage
 
 Using NanoSAM from Python looks like this
@@ -42,6 +43,7 @@ The point labels may be
 
 > Follow the instructions below for how to build the engine files.
 
+<a id="performance"></a>
 ## 🏆 Performance
 
 NanoSAM runs real-time on Jetson Orin Nano.
@@ -191,6 +193,7 @@ NanoSAM is fairly easy to get started with.
 That's it!  From there, you can read the example code for examples on how
 to use NanoSAM with Python.  Or try running the more advanced examples below.
 
+<a id="examples"></a>
 ## 🤸 Examples
 
 NanoSAM can be applied in many creative ways.
@@ -283,6 +286,7 @@ demonstrate creative ways you can use NanoSAM, but would likely be improved with
 more work.
 </details>
 
+<a id="training"></a>
 ## 🏋️ Training
 
 You can train NanoSAM on a single GPU
@@ -354,6 +358,7 @@ You can train NanoSAM on a single GPU
 
 You can then build the TensorRT engine as detailed in the getting started section.
 
+<a id="evaluation"></a>
 ## 🧐 Evaluation
 
 You can reproduce the accuracy results above by evaluating against COCO ground
@@ -407,13 +412,15 @@ truth masks
     </details>
 
 
-## :clap: Acknowledgement
+<a id="acknowledgement"></a>
+## 👏 Acknowledgement
 
 This project is enabled by the great projects below.
 
 - [SAM](https://github.com/facebookresearch/segment-anything) - The original Segment Anything model.
 - [MobileSAM](https://github.com/ChaoningZhang/MobileSAM) - The distilled Tiny ViT Segment Anything model.
 
+<a id="see-also"></a>
 ## 🔗 See also
 
 - [Jetson Introduction to Knowledge Distillation Tutorial](https://github.com/NVIDIA-AI-IOT/jetson-intro-to-distillation) - For an introduction to knowledge distillation as a model optimization technique.
