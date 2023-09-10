@@ -1,6 +1,6 @@
 <h1 align="center"><span>NanoSAM</span></h1>
 
-<p align="center"><a href="#usage"/>👍 Usage</a> - <a href="#performance"/>🏆 Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#examples">🤸 Examples</a> - <a href="#training">🏋️ Training</a> <br>- <a href="#evaluation">🧐 Evaluation</a> - <a href="#acknowledgement">👏 Acknowledgment</a> - <a href="#see-also">🔗 See also</a></p>
+<p align="center"><a href="#usage"/>👍 Usage</a> - <a href="#performance"/>⏱️ Performance</a> - <a href="#setup">🛠️ Setup</a> - <a href="#examples">🤸 Examples</a> - <a href="#training">🏋️ Training</a> <br>- <a href="#evaluation">🧐 Evaluation</a> - <a href="#acknowledgement">👏 Acknowledgment</a> - <a href="#see-also">🔗 See also</a></p>
 
 NanoSAM is a [Segment Anything (SAM)](https://github.com/facebookresearch/segment-anything) model variant that is capable of running in 🔥 ***real-time*** 🔥 on [NVIDIA Jetson Orin Platforms](https://store.nvidia.com/en-us/jetson/store) with [NVIDIA TensorRT](https://developer.nvidia.com/tensorrt).  
 
@@ -46,7 +46,7 @@ The point labels may be
 > Follow the instructions below for how to build the engine files.
 
 <a id="performance"></a>
-## 🏆 Performance
+## ⏱️ Performance
 
 NanoSAM runs real-time on Jetson Orin Nano.
 
