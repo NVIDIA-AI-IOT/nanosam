@@ -61,7 +61,7 @@ if __name__ == "__main__":
     else:
         raise RuntimeError(f"Unsupported loss function {args.loss}")
 
-    optimizer = torch.optim.Adam(image_encoder_cnn.parameters(), lr=3e-4)
+    optimizer = torch.optim.Adam(image_encoder_cnn.parameters(), lr=args.learning_rate)
 
     dataset = ImageFolder(args.images)
 
