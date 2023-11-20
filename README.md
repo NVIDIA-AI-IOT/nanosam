@@ -228,7 +228,8 @@ To run the example, call
 python3 examples/segment_from_owl.py \
     --prompt="A tree" \
     --image_encoder="data/resnet18_image_encoder.engine" \
-    --mask_decoder="data/mobile_sam_mask_decoder.engine
+    --mask_decoder="data/mobile_sam_mask_decoder.engine" \
+    image="assets/john_1.jpg"
 ```
 
 <details>
